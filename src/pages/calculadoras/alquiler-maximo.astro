@@ -1,0 +1,124 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+---
+
+<CalculatorLayout
+  title="Calculadora de alquiler máximo según tus ingresos"
+  description="Calcula el alquiler máximo orientativo según tus ingresos mensuales netos y el porcentaje que decidas destinar a vivienda. Gratis y sin guardar datos."
+  heading="Calculadora de alquiler máximo"
+  intro="Indica tus ingresos netos y el porcentaje máximo que quieres destinar al alquiler. La calculadora te dará una cifra orientativa de alquiler máximo según tu propio criterio."
+  breadcrumbLabel="Alquiler máximo"
+  cta={{
+    title: 'Organizar este cálculo en la plantilla premium',
+    description: 'El simulador de alquiler de «Controla tu dinero en 30 días» usa tus ingresos y gastos reales para mostrarte el peso de cada piso sobre tu sueldo.',
+    buttonLabel: 'Ver el módulo incluido en la plantilla',
+    buttonHref: '/plantillas/controla-tu-dinero#alquiler',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="ingresos" class="form-label">Ingresos mensuales netos (€)</label>
+        <input type="number" id="ingresos" inputmode="decimal" min="0" step="any" placeholder="1400" class="form-input" />
+        <p class="form-hint">Lo que llega a tu cuenta cada mes, después de impuestos.</p>
+      </div>
+      <div>
+        <label for="porcentaje" class="form-label">Porcentaje máximo para alquiler (%)</label>
+        <input type="number" id="porcentaje" inputmode="decimal" min="1" max="100" step="any" placeholder="30" class="form-input" />
+        <p class="form-hint">Una referencia habitual es el 30 %, pero la decisión es tuya.</p>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Calcular alquiler máximo
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu resultado</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2">
+      <div class="result-card">
+        <p class="result-label">Alquiler máximo orientativo</p>
+        <p class="result-value" id="res-alquiler">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Ingresos restantes tras el alquiler</p>
+        <p class="result-value" id="res-restante">—</p>
+      </div>
+    </div>
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+    <p class="mt-3 text-xs text-slate-400">
+      Esta cifra es una estimación orientativa basada en el porcentaje que tú has elegido. No tiene
+      en cuenta tus demás gastos ni tu situación personal.
+    </p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Cómo se calcula el alquiler máximo</h2>
+    <p>
+      El cálculo es deliberadamente simple: multiplica tus ingresos mensuales netos por el
+      porcentaje máximo que tú decidas destinar a vivienda. Si ingresas 1.400 € netos y eliges un
+      30 %, el resultado orientativo sería 420 € al mes. La clave está en que el porcentaje lo
+      eliges tú según tu situación y tus prioridades.
+    </p>
+    <h3>¿Qué porcentaje suele usarse como referencia?</h3>
+    <p>
+      Una regla orientativa muy extendida sugiere no destinar más del 30 % de los ingresos netos al
+      alquiler. No es una norma oficial ni una garantía de nada: es solo un punto de partida para
+      razonar. Hay personas que prefieren un porcentaje menor para tener más margen de ahorro y
+      otras que aceptan uno mayor a cambio de vivir en una zona concreta.
+    </p>
+    <h3>Qué más deberías tener en cuenta</h3>
+    <p>
+      El alquiler no es el único gasto de una vivienda: suministros, fianza inicial, posibles
+      gastos de agencia y transporte hasta el trabajo también pesan en el resultado final. Antes de
+      decidir, puede ayudarte la calculadora de
+      <a href="/calculadoras/coste-mudanza">coste de mudanza</a>, la comparativa de
+      <a href="/calculadoras/vivir-solo-compartir">vivir solo o compartir piso</a> y la guía sobre
+      <a href="/guias/como-saber-si-puedes-independizarte">cómo saber si puedes independizarte</a>.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const ingresos = parseFloat((document.getElementById('ingresos') as HTMLInputElement).value);
+    const porcentaje = parseFloat((document.getElementById('porcentaje') as HTMLInputElement).value);
+
+    if (!Number.isFinite(ingresos) || ingresos <= 0) {
+      error.textContent = 'Introduce tus ingresos mensuales netos para calcular el alquiler máximo.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+    if (!Number.isFinite(porcentaje) || porcentaje <= 0 || porcentaje > 100) {
+      error.textContent = 'Introduce un porcentaje entre 1 y 100.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+
+    const alquilerMaximo = (ingresos * porcentaje) / 100;
+    const restante = ingresos - alquilerMaximo;
+
+    document.getElementById('res-alquiler')!.textContent = formatEuros(alquilerMaximo);
+    document.getElementById('res-restante')!.textContent = formatEuros(restante);
+    document.getElementById('res-mensaje')!.textContent =
+      `Si destinas como máximo el ${porcentaje.toLocaleString('es-ES')} % de tus ingresos al alquiler, la cifra orientativa sería ${formatEuros(alquilerMaximo)} al mes, y te quedarían ${formatEuros(restante)} para el resto de gastos. Es una estimación general, no una recomendación personalizada.`;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

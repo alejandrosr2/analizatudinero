@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Aviso legal', href: '/aviso-legal' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Aviso legal"
+  description="Aviso legal de analizatudinero.com: contenido educativo, sin asesoramiento financiero, fiscal ni legal, limitación de responsabilidad y uso de las calculadoras."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Aviso legal' }]} />
+
+    <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">Aviso legal</h1>
+
+    <div class="prose-article mt-8">
+      <p class="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <strong>Nota:</strong> este texto es una base orientativa pendiente de revisión por un
+        profesional legal antes del lanzamiento definitivo del sitio.
+      </p>
+
+      <h2>Naturaleza del contenido: educativo</h2>
+      <p>
+        Todo el contenido publicado en analizatudinero.com —guías, análisis, calculadoras y
+        plantillas— tiene una finalidad exclusivamente <strong>educativa e informativa</strong>. Su
+        objetivo es ayudar a comprender conceptos generales de organización de la economía
+        personal.
+      </p>
+
+      <h2>No asesoramiento financiero</h2>
+      <p>
+        Este sitio web no presta servicios de asesoramiento financiero ni de inversión. Ningún
+        contenido debe interpretarse como una recomendación personalizada sobre productos
+        financieros, inversiones o decisiones económicas concretas. Si necesitas asesoramiento
+        financiero, acude a un profesional o entidad debidamente regulados.
+      </p>
+
+      <h2>No asesoramiento fiscal</h2>
+      <p>
+        El contenido de este sitio no constituye asesoramiento fiscal ni tributario. Las cuestiones
+        fiscales dependen de la normativa vigente y de la situación particular de cada persona;
+        consulta con un asesor fiscal cualificado antes de tomar decisiones con implicaciones
+        tributarias.
+      </p>
+
+      <h2>No asesoramiento legal</h2>
+      <p>
+        Ningún contenido de este sitio constituye asesoramiento jurídico. Para cuestiones legales
+        (contratos de alquiler, obligaciones contractuales, etc.), consulta con un abogado o
+        profesional jurídico cualificado.
+      </p>
+
+      <h2>Calculadoras: estimaciones orientativas</h2>
+      <p>
+        Las calculadoras disponibles en este sitio realizan operaciones aritméticas simples con los
+        datos que introduce cada usuario. Sus resultados son <strong>estimaciones orientativas y
+        generales</strong> que no tienen en cuenta la situación personal completa de nadie y no
+        deben ser la única base para tomar decisiones económicas. Las calculadoras funcionan
+        localmente en el navegador y no almacenan ni transmiten los datos introducidos.
+      </p>
+
+      <h2>Limitación de responsabilidad</h2>
+      <p>
+        El equipo de Analiza Tu Dinero trabaja para que el contenido sea claro y correcto, pero no
+        garantiza la exactitud, integridad o actualidad de la información publicada. El uso del
+        contenido y de las herramientas de este sitio es responsabilidad exclusiva del usuario. En
+        la medida permitida por la ley, Analiza Tu Dinero no se hace responsable de las decisiones
+        tomadas a partir de la información o las herramientas aquí publicadas.
+      </p>
+
+      <h2>Enlaces de afiliado (futuro)</h2>
+      <p>
+        En el futuro, este sitio podría incluir enlaces de afiliado a herramientas o productos
+        relacionados con la organización financiera personal. Si eso ocurre, los enlaces de
+        afiliado se señalarán de forma clara y nunca condicionarán el criterio editorial. No se
+        promocionarán productos de inversión de alto riesgo, trading ni criptoactivos.
+      </p>
+
+      <h2>Propiedad intelectual</h2>
+      <p>
+        Los contenidos de este sitio (textos, diseño, herramientas) pertenecen a Analiza Tu Dinero,
+        salvo que se indique lo contrario. No está permitida su reproducción comercial sin
+        autorización previa.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>
+        Para cualquier cuestión relacionada con este aviso legal, puedes escribir a
+        <a href="mailto:contacto@analizatudinero.com">contacto@analizatudinero.com</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

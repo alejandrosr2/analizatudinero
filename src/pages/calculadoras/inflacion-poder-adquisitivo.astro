@@ -1,0 +1,208 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+---
+
+<CalculatorLayout
+  title="Calculadora de inflación y poder adquisitivo"
+  description="Calcula cómo afecta la inflación al valor de tu dinero y de tu sueldo: equivalencias entre años, pérdida de poder adquisitivo y cuánto tendría que subir tu sueldo. Gratis y sin guardar datos."
+  heading="Calculadora de inflación y poder adquisitivo"
+  intro="Introduce una cantidad, dos años y la inflación media anual que quieras suponer. La calculadora te muestra cuánto poder de compra se pierde por el camino y, si añades tus sueldos, qué diferencia real hay entre ellos."
+  breadcrumbLabel="Inflación y poder adquisitivo"
+  disclaimer="Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los cálculos usan la inflación introducida manualmente por ti y no representan necesariamente datos oficiales. Nada se guarda ni se envía: todo se calcula en tu navegador."
+  cta={{
+    title: 'Protege tu margen con un sistema',
+    description: 'Lo que sí está en tu mano es conocer tu presupuesto al detalle. La plantilla premium «Controla tu dinero en 30 días» te da esa foto mes a mes; la demo te enseña cómo es por dentro.',
+    buttonLabel: 'Ver la plantilla premium',
+    buttonHref: '/plantillas/controla-tu-dinero',
+    secondaryLabel: 'Descargar demo gratis',
+    secondaryHref: '/descargas/analiza-tu-dinero-demo-no-editable.xlsx',
+    secondaryDownload: true,
+    note: 'Archivo .xlsx · Datos ficticios · Solo visualización',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="cantidad" class="form-label">Cantidad inicial (€)</label>
+        <input type="number" id="cantidad" inputmode="decimal" min="0" step="any" placeholder="1000" class="form-input" />
+        <p class="form-hint">Un precio, un sueldo o cualquier importe del año inicial.</p>
+      </div>
+      <div>
+        <label for="inflacion" class="form-label">Inflación anual media estimada (%)</label>
+        <input type="number" id="inflacion" inputmode="decimal" min="0" max="50" step="any" placeholder="3" class="form-input" />
+        <p class="form-hint">La media anual que quieras suponer para el periodo.</p>
+      </div>
+      <div>
+        <label for="anio-inicial" class="form-label">Año inicial</label>
+        <input type="number" id="anio-inicial" inputmode="numeric" min="1900" max="2200" step="1" placeholder="2020" class="form-input" />
+        <p class="form-hint">El año del importe inicial.</p>
+      </div>
+      <div>
+        <label for="anio-final" class="form-label">Año final</label>
+        <input type="number" id="anio-final" inputmode="numeric" min="1900" max="2200" step="1" placeholder="2026" class="form-input" />
+        <p class="form-hint">El año con el que quieres comparar.</p>
+      </div>
+      <div>
+        <label for="sueldo-anterior" class="form-label">Sueldo mensual en el año inicial (€) <span class="font-normal text-slate-400">(opcional)</span></label>
+        <input type="number" id="sueldo-anterior" inputmode="decimal" min="0" step="any" placeholder="1300" class="form-input" />
+        <p class="form-hint">Para comparar tu sueldo de entonces con el de ahora.</p>
+      </div>
+      <div>
+        <label for="sueldo-actual" class="form-label">Sueldo mensual actual (€) <span class="font-normal text-slate-400">(opcional)</span></label>
+        <input type="number" id="sueldo-actual" inputmode="decimal" min="0" step="any" placeholder="1450" class="form-input" />
+        <p class="form-hint">Tu sueldo en el año final.</p>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Calcular poder adquisitivo
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu resultado</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-3">
+      <div class="result-card">
+        <p class="result-label">Equivalente necesario en el año final</p>
+        <p class="result-value" id="res-equivalente">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Poder de compra que conserva</p>
+        <p class="result-value" id="res-valor-real">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Pérdida de poder adquisitivo</p>
+        <p class="result-value" id="res-perdida">—</p>
+      </div>
+    </div>
+    <p id="res-explica" class="mt-4 text-sm leading-relaxed text-slate-600"></p>
+
+    <div id="res-sueldos" class="mt-6 hidden">
+      <h3 class="text-sm font-bold uppercase tracking-wide text-slate-500">Tu sueldo, en términos reales</h3>
+      <div class="mt-3 grid gap-4 sm:grid-cols-3">
+        <div class="result-card">
+          <p class="result-label">Sueldo necesario para igualar poder de compra</p>
+          <p class="result-value" id="res-sueldo-necesario">—</p>
+        </div>
+        <div class="result-card">
+          <p class="result-label">Diferencia mensual</p>
+          <p class="result-value" id="res-dif-mensual">—</p>
+        </div>
+        <div class="result-card">
+          <p class="result-label">Diferencia anual (12 pagas)</p>
+          <p class="result-value" id="res-dif-anual">—</p>
+        </div>
+      </div>
+    </div>
+
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+    <p class="mt-3 text-xs text-slate-400">
+      Simulación orientativa con la inflación media que tú has introducido; no son datos oficiales.
+    </p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Cómo funciona el cálculo (la fórmula, en sencillo)</h2>
+    <p>
+      La calculadora aplica la inflación como un interés compuesto sobre los precios: cada año, todo
+      cuesta de media un porcentaje más que el anterior. La fórmula es
+      <strong>cantidad × (1 + inflación)<sup>años</sup></strong>. Si algo costaba 800 € hace 6 años y
+      supones una inflación media del 3 %, su equivalente hoy sería 800 × 1,03⁶ ≈ 955 €. Y al revés:
+      esos 800 € de entonces conservan hoy un poder de compra de unos 670 €.
+    </p>
+    <h3>Para qué sirve en la práctica</h3>
+    <p>
+      El uso más útil es con tu sueldo: si en 2020 cobrabas 1.300 € y quieres saber cuánto tendrías
+      que cobrar ahora para mantener el mismo poder de compra, introduce ambos años, tu inflación
+      media estimada y los dos sueldos. La calculadora te dirá el sueldo equivalente y la diferencia
+      mensual y anual con tu sueldo real. Cobrar lo mismo durante años no es ganar lo mismo: es
+      ganar menos en términos reales. Lo explicamos a fondo en la guía de
+      <a href="/guias/como-afecta-la-inflacion-a-tu-sueldo">cómo afecta la inflación a tu sueldo</a>.
+    </p>
+    <h3>Una advertencia honesta</h3>
+    <p>
+      La inflación real varía cada año y según qué consumas: aquí trabajas con una media que tú
+      decides, así que el resultado es una aproximación, no un dato oficial. Para consultar series
+      de inflación reales, acude siempre a las fuentes estadísticas oficiales. El valor de esta
+      herramienta está en entender el mecanismo y en hacer comparaciones rápidas de escenarios, no
+      en sustituir esos datos.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros, formatPercent } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  const num = (id: string): number => {
+    const value = parseFloat((document.getElementById(id) as HTMLInputElement).value);
+    return Number.isFinite(value) ? value : NaN;
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const cantidad = num('cantidad');
+    const inflacion = num('inflacion');
+    const anioInicial = num('anio-inicial');
+    const anioFinal = num('anio-final');
+    const sueldoAnterior = num('sueldo-anterior');
+    const sueldoActual = num('sueldo-actual');
+
+    const falla = (msg: string) => {
+      error.textContent = msg;
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+    };
+
+    if (Number.isNaN(cantidad) || cantidad <= 0) return falla('Introduce una cantidad inicial mayor que 0.');
+    if (Number.isNaN(inflacion) || inflacion < 0 || inflacion > 50) return falla('Introduce una inflación anual media entre 0 y 50 %.');
+    if (Number.isNaN(anioInicial) || Number.isNaN(anioFinal)) return falla('Introduce el año inicial y el año final.');
+    const anios = anioFinal - anioInicial;
+    if (anios <= 0 || anios > 100) return falla('El año final debe ser posterior al inicial (máximo 100 años de diferencia).');
+
+    const factor = Math.pow(1 + inflacion / 100, anios);
+    const equivalente = cantidad * factor;
+    const valorReal = cantidad / factor;
+    const perdida = (1 - 1 / factor) * 100;
+
+    document.getElementById('res-equivalente')!.textContent = formatEuros(equivalente);
+    document.getElementById('res-valor-real')!.textContent = formatEuros(valorReal);
+    document.getElementById('res-perdida')!.textContent = formatPercent(perdida);
+    document.getElementById('res-explica')!.textContent =
+      `Con una inflación media del ${inflacion.toLocaleString('es-ES')} % anual durante ${anios} años, ${formatEuros(cantidad)} de ${anioInicial} equivalen a ${formatEuros(equivalente)} de ${anioFinal}. Dicho al revés: esa cantidad conserva un poder de compra de ${formatEuros(valorReal)}, un ${formatPercent(perdida)} menos.`;
+
+    const bloqueSueldos = document.getElementById('res-sueldos')!;
+    let mensaje = '';
+    const haySueldos = !Number.isNaN(sueldoAnterior) && sueldoAnterior > 0 && !Number.isNaN(sueldoActual) && sueldoActual > 0;
+    if (haySueldos) {
+      const sueldoNecesario = sueldoAnterior * factor;
+      const difMensual = sueldoActual - sueldoNecesario;
+      document.getElementById('res-sueldo-necesario')!.textContent = formatEuros(sueldoNecesario);
+      document.getElementById('res-dif-mensual')!.textContent = formatEuros(difMensual);
+      document.getElementById('res-dif-anual')!.textContent = formatEuros(difMensual * 12);
+      bloqueSueldos.classList.remove('hidden');
+      if (difMensual >= 0) {
+        mensaje = `Con estos supuestos, para igualar el poder de compra de tus ${formatEuros(sueldoAnterior)} de ${anioInicial} necesitarías ${formatEuros(sueldoNecesario)} en ${anioFinal}. Tu sueldo actual está ${formatEuros(Math.abs(difMensual))} al mes por encima de ese equivalente.`;
+      } else {
+        mensaje = `Con estos supuestos, para igualar el poder de compra de tus ${formatEuros(sueldoAnterior)} de ${anioInicial} necesitarías ${formatEuros(sueldoNecesario)} en ${anioFinal}. Tu sueldo actual queda ${formatEuros(Math.abs(difMensual))} al mes por debajo de ese equivalente: en términos reales, cobras menos que entonces.`;
+      }
+      mensaje += ' Es una simulación con la inflación media que has indicado, no un dato oficial ni una recomendación laboral.';
+    } else {
+      bloqueSueldos.classList.add('hidden');
+      mensaje =
+        'Si añades tu sueldo del año inicial y el actual, la calculadora te mostrará también cuánto tendría que haber subido para mantener tu poder de compra. Simulación orientativa con la inflación que tú indicas.';
+    }
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

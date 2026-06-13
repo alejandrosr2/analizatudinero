@@ -1,0 +1,29 @@
+---
+import PlantillaModuloPage from '@components/PlantillaModuloPage.astro';
+---
+
+<PlantillaModuloPage
+  title="Plantilla para independizarse"
+  description="Cómo ayudan los módulos de alquiler, mudanza y fondo de emergencia de la plantilla Controla tu dinero en 30 días a calcular si puedes independizarte con números reales."
+  heading="Plantilla para independizarse"
+  intro="¿Puedo independizarme? es una pregunta de números: alquiler asumible, coste de entrada y colchón. La plantilla premium junta los tres cálculos en un mismo archivo."
+  breadcrumbLabel="Independizarse"
+  moduloIds={['alquiler', 'mudanza', 'fondo-emergencia']}
+  calculadora={{ label: 'Calculadora de alquiler máximo (gratis)', href: '/calculadoras/alquiler-maximo' }}
+>
+  <h2>El problema: decidir con una sola cifra</h2>
+  <p>
+    El error clásico al plantearse independizarse es mirar solo el alquiler y compararlo con el
+    sueldo. Pero la decisión real tiene tres patas: cuánto alquiler puedes asumir cada mes, cuánto
+    cuesta la entrada (fianza, mudanza, equipamiento) y qué colchón necesitas para que un imprevisto
+    no te devuelva a casa. Calcular solo una de las tres es decidir a ciegas.
+  </p>
+  <h2>Cómo lo resuelven los módulos</h2>
+  <p>
+    El simulador de alquiler te dice qué peso tendría cada piso sobre tu sueldo y cuánto te quedaría
+    para vivir. El simulador de mudanza suma el coste de entrada completo. Y el módulo de fondo de
+    emergencia dimensiona el colchón y sigue tu progreso hasta alcanzarlo. Los tres comparten tus
+    datos de ingresos y gastos, así que el escenario es coherente. El método paso a paso está en la
+    guía de <a href="/guias/como-saber-si-puedes-independizarte">cómo saber si puedes independizarte</a>.
+  </p>
+</PlantillaModuloPage>

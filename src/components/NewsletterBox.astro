@@ -1,0 +1,55 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Recibe nuevas herramientas y guías',
+  description = 'Sin spam y sin promesas raras. Solo avisos cuando publicamos calculadoras, plantillas o guías nuevas. Podrás darte de baja cuando quieras.',
+} = Astro.props;
+---
+
+<div class="rounded-2xl border border-slate-200 bg-slate-50 px-6 py-8 sm:px-10">
+  <div class="mx-auto max-w-xl text-center">
+    <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">{title}</h2>
+    <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">{description}</p>
+    <!-- Formulario visual: pendiente de conectar con un proveedor de email externo -->
+    <form class="mt-6 flex flex-col gap-3 sm:flex-row" data-newsletter-form>
+      <label for="newsletter-email" class="sr-only">Tu correo electrónico</label>
+      <input
+        type="email"
+        id="newsletter-email"
+        name="email"
+        required
+        placeholder="tu@email.com"
+        autocomplete="email"
+        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-navy-500"
+      />
+      <button
+        type="submit"
+        class="shrink-0 rounded-lg bg-navy-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+      >
+        Apuntarme
+      </button>
+    </form>
+    <p class="mt-3 hidden rounded-lg bg-mint-100 px-4 py-2 text-sm text-mint-800" data-newsletter-ok role="status">
+      ¡Gracias! La lista de correo estará activa muy pronto. De momento no se ha guardado ningún dato.
+    </p>
+    <p class="mt-3 text-xs text-slate-400">
+      La lista de correo se gestionará con un proveedor externo. Más información en la
+      <a href="/privacidad" class="underline hover:text-slate-600">política de privacidad</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  // El formulario aún no está conectado a ningún proveedor: no envía ni guarda datos.
+  document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.parentElement?.querySelector('[data-newsletter-ok]')?.classList.remove('hidden');
+      form.reset();
+    });
+  });
+</script>

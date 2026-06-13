@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Card from '@components/Card.astro';
+import DisclaimerBox from '@components/DisclaimerBox.astro';
+import CTABox from '@components/CTABox.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+const articulos = (await getCollection('analisis', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Análisis', href: '/analisis' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Análisis de decisiones económicas cotidianas"
+  description="Análisis con metodologías y ejemplos hipotéticos para decisiones económicas cotidianas: independizarse, mudarse de ciudad, comparar sueldos y coste de vida."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Análisis' }]} />
+
+    <header class="mt-6 max-w-2xl">
+      <h1 class="text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+        Análisis de decisiones económicas
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-600">
+        Metodologías para poner números a decisiones importantes: independizarse, cambiar de ciudad,
+        valorar un sueldo o un trabajo con alojamiento. Trabajamos con ejemplos hipotéticos que tú
+        puedes sustituir por tus datos reales.
+      </p>
+    </header>
+
+    <div class="mt-8 max-w-2xl">
+      <DisclaimerBox text="Estos análisis presentan metodologías y ejemplos orientativos con cifras hipotéticas, no datos oficiales actualizados ni recomendaciones personalizadas." />
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {
+        articulos.map((articulo) => (
+          <Card
+            title={articulo.data.title}
+            description={articulo.data.description}
+            href={`/analisis/${articulo.id}`}
+            linkLabel="Leer análisis"
+            icon="chart"
+            badge="Análisis"
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-16">
+      <CTABox
+        title="Aplica la metodología con tus números"
+        description="Cada análisis se apoya en una calculadora. Introduce tus datos y obtén tu propio resultado en un minuto."
+        buttonLabel="Ver calculadoras"
+        buttonHref="/calculadoras"
+      />
+    </div>
+  </div>
+</BaseLayout>

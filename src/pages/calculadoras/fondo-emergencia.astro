@@ -1,0 +1,153 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+---
+
+<CalculatorLayout
+  title="Calculadora de fondo de emergencia"
+  description="Calcula cuánto necesitas en tu fondo de emergencia según tus gastos esenciales y los meses que quieras cubrir, cuánto te falta y cuántos meses tardarías en completarlo."
+  heading="Calculadora de fondo de emergencia"
+  intro="Indica tus gastos esenciales mensuales, cuántos meses quieres cubrir y cuánto tienes ahorrado. La calculadora te dirá el objetivo total, lo que te falta y, si añades un ahorro mensual, cuántos meses tardarías en llegar."
+  breadcrumbLabel="Fondo de emergencia"
+  cta={{
+    title: 'Llevar este cálculo mes a mes',
+    description: 'El módulo de fondo de emergencia de la plantilla premium «Controla tu dinero en 30 días» sigue tu progreso con barra de avance y ahorro mensual necesario.',
+    buttonLabel: 'Ver el módulo incluido en la plantilla',
+    buttonHref: '/plantillas/controla-tu-dinero#fondo-emergencia',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="gastos" class="form-label">Gastos mensuales esenciales (€)</label>
+        <input type="number" id="gastos" inputmode="decimal" min="0" step="any" placeholder="900" class="form-input" />
+        <p class="form-hint">Vivienda, comida, suministros, transporte: lo imprescindible.</p>
+      </div>
+      <div>
+        <label for="meses" class="form-label">Meses que quieres cubrir</label>
+        <input type="number" id="meses" inputmode="numeric" min="1" max="36" step="1" placeholder="3" class="form-input" />
+        <p class="form-hint">Una referencia habitual va de 3 a 6 meses, pero lo decides tú.</p>
+      </div>
+      <div>
+        <label for="ahorro" class="form-label">Ahorro actual (€)</label>
+        <input type="number" id="ahorro" inputmode="decimal" min="0" step="any" placeholder="0" class="form-input" />
+        <p class="form-hint">Lo que ya tienes apartado para imprevistos.</p>
+      </div>
+      <div>
+        <label for="mensual" class="form-label">Ahorro mensual previsto (€) <span class="font-normal text-slate-400">(opcional)</span></label>
+        <input type="number" id="mensual" inputmode="decimal" min="0" step="any" placeholder="100" class="form-input" />
+        <p class="form-hint">Cuánto crees que podrías apartar cada mes.</p>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Calcular mi fondo de emergencia
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu resultado</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-3">
+      <div class="result-card">
+        <p class="result-label">Fondo objetivo</p>
+        <p class="result-value" id="res-objetivo">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Cantidad pendiente</p>
+        <p class="result-value" id="res-pendiente">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Meses para completarlo</p>
+        <p class="result-value" id="res-meses">—</p>
+      </div>
+    </div>
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Qué es un fondo de emergencia y cómo se calcula</h2>
+    <p>
+      Un fondo de emergencia es dinero apartado para cubrir imprevistos: una avería, un gasto médico,
+      una pérdida temporal de ingresos. El cálculo de esta herramienta es directo: multiplica tus
+      gastos esenciales mensuales por el número de meses que quieras cubrir y compara el resultado
+      con lo que ya tienes ahorrado.
+    </p>
+    <h3>¿Cuántos meses conviene cubrir?</h3>
+    <p>
+      No hay una respuesta única. Una referencia orientativa habitual va de 3 a 6 meses de gastos
+      esenciales, pero depende de tu estabilidad de ingresos, de si vives solo o acompañado y de tu
+      tranquilidad personal. Quien tiene ingresos variables suele preferir un colchón mayor; quien
+      tiene gastos muy bajos puede empezar por un objetivo más modesto e ir ampliándolo.
+    </p>
+    <h3>Cómo empezar si partes de cero</h3>
+    <p>
+      Lo importante no es la cifra final, sino el hábito. Calcular primero tu
+      <a href="/calculadoras/presupuesto-mensual">presupuesto mensual</a> te dirá cuánto margen
+      tienes para apartar cada mes, y la guía sobre
+      <a href="/guias/como-calcular-tu-capacidad-de-ahorro">cómo calcular tu capacidad de ahorro</a>
+      te ayudará a encontrar ese margen sin fórmulas raras. Recuerda: estas cifras son estimaciones
+      orientativas, no objetivos obligatorios ni asesoramiento personalizado.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const gastos = parseFloat((document.getElementById('gastos') as HTMLInputElement).value);
+    const meses = parseFloat((document.getElementById('meses') as HTMLInputElement).value);
+    const ahorroRaw = parseFloat((document.getElementById('ahorro') as HTMLInputElement).value);
+    const mensualRaw = parseFloat((document.getElementById('mensual') as HTMLInputElement).value);
+    const ahorro = Number.isFinite(ahorroRaw) && ahorroRaw >= 0 ? ahorroRaw : 0;
+    const mensual = Number.isFinite(mensualRaw) && mensualRaw > 0 ? mensualRaw : 0;
+
+    if (!Number.isFinite(gastos) || gastos <= 0) {
+      error.textContent = 'Introduce tus gastos mensuales esenciales para calcular el fondo.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+    if (!Number.isFinite(meses) || meses <= 0) {
+      error.textContent = 'Introduce cuántos meses de gastos quieres cubrir (por ejemplo, 3).';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+
+    const objetivo = gastos * meses;
+    const pendiente = Math.max(0, objetivo - ahorro);
+
+    document.getElementById('res-objetivo')!.textContent = formatEuros(objetivo);
+    document.getElementById('res-pendiente')!.textContent = formatEuros(pendiente);
+
+    const resMeses = document.getElementById('res-meses')!;
+    let mensaje: string;
+
+    if (pendiente === 0) {
+      resMeses.textContent = '0';
+      mensaje =
+        'Con estos datos, tu ahorro actual ya cubre el objetivo que has marcado. Mantenerlo accesible para imprevistos es lo que le da sentido. Mensaje orientativo, no personalizado.';
+    } else if (mensual > 0) {
+      const mesesNecesarios = Math.ceil(pendiente / mensual);
+      resMeses.textContent = String(mesesNecesarios);
+      mensaje = `Con estos datos, apartando ${formatEuros(mensual)} al mes tardarías unos ${mesesNecesarios} meses en completar tu fondo de ${formatEuros(objetivo)}. Es una estimación orientativa: cualquier cambio en tus gastos o ingresos la modificará.`;
+    } else {
+      resMeses.textContent = '—';
+      mensaje = `Te faltan ${formatEuros(pendiente)} para alcanzar tu objetivo de ${formatEuros(objetivo)}. Si indicas un ahorro mensual previsto, la calculadora estimará cuántos meses tardarías en completarlo.`;
+    }
+
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

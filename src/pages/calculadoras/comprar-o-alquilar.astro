@@ -1,0 +1,289 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+
+const camposCompra = [
+  { id: 'precio', label: 'Precio de la vivienda (€)', hint: 'El precio de compra que quieres simular.', placeholder: '180000' },
+  { id: 'entrada-pct', label: 'Entrada (%)', hint: 'Porcentaje del precio que pagarías al inicio. Una referencia habitual es el 20 %.', placeholder: '20' },
+  { id: 'gastos-pct', label: 'Gastos de compra (%)', hint: 'Impuestos, notaría, registro… Suelen estimarse entre el 10 % y el 15 % según el caso.', placeholder: '12' },
+  { id: 'interes', label: 'Tipo de interés anual (%)', hint: 'El tipo hipotético que quieras simular para la hipoteca.', placeholder: '3' },
+  { id: 'plazo', label: 'Plazo de la hipoteca (años)', hint: 'Duración del préstamo en la simulación.', placeholder: '25' },
+  { id: 'comunidad', label: 'Comunidad y gastos mensuales (€)', hint: 'Cuotas de comunidad y otros gastos mensuales de la vivienda comprada.', placeholder: '60' },
+  { id: 'ibi', label: 'IBI anual estimado (€)', hint: 'El impuesto anual de la vivienda que quieras suponer.', placeholder: '300' },
+  { id: 'seguro', label: 'Seguro anual estimado (€)', hint: 'Seguro de hogar u otros seguros anuales asociados.', placeholder: '250' },
+  { id: 'mantenimiento', label: 'Mantenimiento anual estimado (€)', hint: 'Reparaciones y conservación: una reserva anual orientativa.', placeholder: '600' },
+] as const;
+---
+
+<CalculatorLayout
+  title="Calculadora comprar o alquilar vivienda"
+  description="Compara de forma orientativa el coste acumulado de comprar una vivienda frente a vivir de alquiler a 5, 10, 20 y 30 años, con tus propios supuestos. Gratis y sin guardar datos."
+  heading="Calculadora comprar o alquilar"
+  intro="Introduce tus supuestos —precio, entrada, interés, alquiler y gastos— y compara el coste acumulado de comprar frente a alquilar a lo largo del tiempo. La herramienta no recomienda ninguna opción: solo pone números a cada escenario."
+  breadcrumbLabel="Comprar o alquilar"
+  disclaimer="Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los resultados son estimaciones basadas en los datos introducidos por el usuario. No recomendamos comprar, alquilar ni contratar una hipoteca: la herramienta solo compara escenarios. Nada se guarda ni se envía: todo se calcula en tu navegador."
+  cta={{
+    title: 'Organiza la decisión completa',
+    description: 'La plantilla premium «Controla tu dinero en 30 días» reúne tu presupuesto, tus simuladores de vivienda y tus objetivos de ahorro en un único archivo. Descarga la demo para verla por dentro.',
+    buttonLabel: 'Ver la plantilla premium',
+    buttonHref: '/plantillas/controla-tu-dinero#modulos',
+    secondaryLabel: 'Descargar demo gratis',
+    secondaryHref: '/descargas/analiza-tu-dinero-demo-no-editable.xlsx',
+    secondaryDownload: true,
+    note: 'Archivo .xlsx · Datos ficticios · Solo visualización',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <h2 class="text-sm font-bold uppercase tracking-wide text-navy-900">Escenario de compra</h2>
+    <div class="mt-4 grid gap-5 sm:grid-cols-2">
+      {
+        camposCompra.map((campo) => (
+          <div>
+            <label for={campo.id} class="form-label">
+              {campo.label}
+            </label>
+            <input type="number" id={campo.id} inputmode="decimal" min="0" step="any" placeholder={campo.placeholder} class="form-input" />
+            <p class="form-hint">{campo.hint}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="mt-8 text-sm font-bold uppercase tracking-wide text-navy-900">Escenario de alquiler</h2>
+    <div class="mt-4 grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="alquiler" class="form-label">Alquiler mensual actual (€)</label>
+        <input type="number" id="alquiler" inputmode="decimal" min="0" step="any" placeholder="800" class="form-input" />
+        <p class="form-hint">Lo que pagarías hoy por una vivienda equivalente.</p>
+      </div>
+      <div>
+        <label for="subida" class="form-label">Subida anual estimada del alquiler (%)</label>
+        <input type="number" id="subida" inputmode="decimal" min="0" step="any" placeholder="2" class="form-input" />
+        <p class="form-hint">El incremento anual que quieras suponer.</p>
+      </div>
+    </div>
+
+    <h2 class="mt-8 text-sm font-bold uppercase tracking-wide text-navy-900">Horizonte</h2>
+    <div class="mt-4 grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="anos-vivir" class="form-label">Años que planeas vivir en esa vivienda</label>
+        <input type="number" id="anos-vivir" inputmode="numeric" min="1" max="50" step="1" placeholder="15" class="form-input" />
+        <p class="form-hint">El dato que más cambia la comparación.</p>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Comparar escenarios
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu comparación</h2>
+
+    <h3 class="mt-5 text-sm font-bold uppercase tracking-wide text-slate-500">Desembolso inicial de comprar</h3>
+    <div class="mt-3 grid gap-4 sm:grid-cols-3">
+      <div class="result-card">
+        <p class="result-label">Entrada estimada</p>
+        <p class="result-value" id="res-entrada">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Gastos de compra</p>
+        <p class="result-value" id="res-gastos-compra">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Total inicial necesario</p>
+        <p class="result-value" id="res-total-inicial">—</p>
+      </div>
+    </div>
+
+    <h3 class="mt-6 text-sm font-bold uppercase tracking-wide text-slate-500">Coste mensual de partida</h3>
+    <div class="mt-3 grid gap-4 sm:grid-cols-3">
+      <div class="result-card">
+        <p class="result-label">Cuota hipotecaria estimada</p>
+        <p class="result-value" id="res-cuota">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Coste mensual total de comprar</p>
+        <p class="result-value" id="res-mensual-compra">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Coste mensual inicial de alquilar</p>
+        <p class="result-value" id="res-mensual-alquiler">—</p>
+      </div>
+    </div>
+
+    <h3 class="mt-6 text-sm font-bold uppercase tracking-wide text-slate-500">Coste acumulado en el tiempo</h3>
+    <div class="mt-3 overflow-x-auto">
+      <table class="w-full min-w-[420px] text-sm">
+        <thead>
+          <tr class="border-b-2 border-slate-200 text-left text-slate-500">
+            <th class="py-2 pr-3 font-semibold" scope="col">Años</th>
+            <th class="py-2 pr-3 text-right font-semibold" scope="col">Comprar (acumulado)</th>
+            <th class="py-2 pr-3 text-right font-semibold" scope="col">Alquilar (acumulado)</th>
+            <th class="py-2 text-right font-semibold" scope="col">Diferencia</th>
+          </tr>
+        </thead>
+        <tbody id="res-tabla"></tbody>
+      </table>
+    </div>
+
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+    <p class="mt-3 text-xs text-slate-400">
+      Comparación orientativa de desembolsos acumulados según tus supuestos. No incluye revalorización,
+      venta, impuestos personales ni otros factores. No es una recomendación.
+    </p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Qué compara exactamente esta calculadora</h2>
+    <p>
+      La herramienta suma todos los desembolsos de cada escenario a lo largo del tiempo. En el de
+      compra: la entrada, los gastos iniciales, las cuotas de la hipoteca y los gastos de propietario
+      (comunidad, IBI, seguro, mantenimiento). En el de alquiler: las mensualidades con la subida
+      anual que indiques. Después compara ambos acumulados a 5, 10, 20 y 30 años y en tu horizonte
+      concreto, y localiza el punto aproximado en el que se cruzan, si existe.
+    </p>
+    <h3>Los supuestos que usa (y conviene conocer)</h3>
+    <ul>
+      <li>La cuota se calcula con el sistema francés de cuota fija, con el tipo constante todo el plazo.</li>
+      <li>No se contemplan amortizaciones anticipadas ni cambios de tipo de interés.</li>
+      <li>No se incluye la posible revalorización de la vivienda ni el dinero recuperable con una venta futura.</li>
+      <li>Tampoco se incluyen impuestos personales, deducciones ni el coste de oportunidad de la entrada.</li>
+      <li>Los gastos de propietario se mantienen constantes; el alquiler sube el porcentaje anual indicado.</li>
+    </ul>
+    <p>
+      Son simplificaciones deliberadas para que la comparación sea comprensible. Por eso el resultado
+      es orientativo: sirve para entender la estructura de costes de cada opción, no para zanjar la
+      decisión. En la guía
+      <a href="/guias/comprar-casa-o-vivir-de-alquiler">comprar casa o vivir de alquiler</a> explicamos
+      cómo interpretar cada partida, qué factores quedan fuera de los números y qué errores se cometen
+      al simplificar demasiado.
+    </p>
+    <h3>Cómo leer el resultado</h3>
+    <p>
+      Comprar concentra un gran desembolso al principio; alquilar reparte el coste en el tiempo. Por
+      eso es normal que el acumulado de comprar empiece por encima y, según los supuestos, se cruce
+      (o no) con el de alquilar pasados unos años. Ese punto de cruce depende por completo de los
+      datos que introduces: cámbialos y verás cuánto se mueve. Esa sensibilidad es, en sí misma, la
+      lección más útil de la herramienta. Recuerda: no recomendamos comprar, alquilar ni contratar
+      ninguna hipoteca; solo ponemos números a los escenarios que tú defines.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  const num = (id: string): number => {
+    const value = parseFloat((document.getElementById(id) as HTMLInputElement).value);
+    return Number.isFinite(value) && value >= 0 ? value : NaN;
+  };
+  const opc = (id: string): number => {
+    const value = num(id);
+    return Number.isNaN(value) ? 0 : value;
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const precio = num('precio');
+    const entradaPct = num('entrada-pct');
+    const interes = num('interes');
+    const plazo = num('plazo');
+    const alquiler = num('alquiler');
+    const anosVivir = num('anos-vivir');
+
+    const falla = (msg: string) => {
+      error.textContent = msg;
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+    };
+
+    if (Number.isNaN(precio) || precio <= 0) return falla('Introduce el precio de la vivienda para simular el escenario de compra.');
+    if (Number.isNaN(entradaPct) || entradaPct >= 100) return falla('Introduce un porcentaje de entrada entre 0 y 99.');
+    if (Number.isNaN(interes)) return falla('Introduce el tipo de interés anual que quieras simular (puede ser 0).');
+    if (Number.isNaN(plazo) || plazo <= 0 || plazo > 50) return falla('Introduce un plazo de hipoteca entre 1 y 50 años.');
+    if (Number.isNaN(alquiler) || alquiler <= 0) return falla('Introduce el alquiler mensual para simular el escenario de alquiler.');
+    if (Number.isNaN(anosVivir) || anosVivir < 1 || anosVivir > 50) return falla('Indica entre 1 y 50 los años que planeas vivir en la vivienda.');
+
+    const gastosPct = opc('gastos-pct');
+    const subida = opc('subida') / 100;
+    const comunidad = opc('comunidad');
+    const ibi = opc('ibi');
+    const seguro = opc('seguro');
+    const mantenimiento = opc('mantenimiento');
+
+    const entrada = (precio * entradaPct) / 100;
+    const gastosCompra = (precio * gastosPct) / 100;
+    const totalInicial = entrada + gastosCompra;
+    const principal = precio - entrada;
+    const mesesHipoteca = Math.round(plazo * 12);
+    const i = interes / 100 / 12;
+    const cuota = i > 0 ? (principal * i) / (1 - Math.pow(1 + i, -mesesHipoteca)) : principal / mesesHipoteca;
+    const gastosPropietarioAnual = comunidad * 12 + ibi + seguro + mantenimiento;
+    const mensualCompra = cuota + gastosPropietarioAnual / 12;
+
+    const acumCompra = (anios: number) =>
+      totalInicial + cuota * 12 * Math.min(anios, plazo) + gastosPropietarioAnual * anios;
+    const acumAlquiler = (anios: number) =>
+      subida > 0 ? ((alquiler * 12) * (Math.pow(1 + subida, anios) - 1)) / subida : alquiler * 12 * anios;
+
+    document.getElementById('res-entrada')!.textContent = formatEuros(entrada);
+    document.getElementById('res-gastos-compra')!.textContent = formatEuros(gastosCompra);
+    document.getElementById('res-total-inicial')!.textContent = formatEuros(totalInicial);
+    document.getElementById('res-cuota')!.textContent = formatEuros(cuota);
+    document.getElementById('res-mensual-compra')!.textContent = formatEuros(mensualCompra);
+    document.getElementById('res-mensual-alquiler')!.textContent = formatEuros(alquiler);
+
+    const hitos = [...new Set([5, 10, 20, 30, Math.round(anosVivir)])].sort((a, b) => a - b).filter((y) => y <= 50);
+    const tabla = document.getElementById('res-tabla')!;
+    tabla.innerHTML = '';
+    for (const anios of hitos) {
+      const compra = acumCompra(anios);
+      const alq = acumAlquiler(anios);
+      const dif = compra - alq;
+      const fila = document.createElement('tr');
+      fila.className = 'border-b border-slate-100 text-slate-600';
+      if (anios === Math.round(anosVivir)) fila.className += ' bg-navy-50/60 font-semibold text-navy-900';
+      const etiqueta = anios === Math.round(anosVivir) ? `${anios} (tu horizonte)` : String(anios);
+      const lado = dif > 0 ? 'comprar cuesta más' : dif < 0 ? 'alquilar cuesta más' : 'empate';
+      fila.innerHTML = `
+        <td class="py-2 pr-3">${etiqueta}</td>
+        <td class="py-2 pr-3 text-right">${formatEuros(compra)}</td>
+        <td class="py-2 pr-3 text-right">${formatEuros(alq)}</td>
+        <td class="py-2 text-right">${formatEuros(Math.abs(dif))} (${lado})</td>`;
+      tabla.appendChild(fila);
+    }
+
+    let equilibrio = 0;
+    for (let y = 1; y <= 50; y++) {
+      if (acumCompra(y) <= acumAlquiler(y)) {
+        equilibrio = y;
+        break;
+      }
+    }
+
+    let mensaje: string;
+    if (equilibrio > 0 && equilibrio <= anosVivir) {
+      mensaje = `En este escenario, comprar tiene un coste acumulado menor a partir del año ${equilibrio}, según los datos introducidos. Dentro de tu horizonte de ${Math.round(anosVivir)} años, el acumulado de comprar queda por debajo del de alquilar.`;
+    } else if (equilibrio > 0) {
+      mensaje = `En este escenario, alquilar mantiene un coste acumulado menor durante tu horizonte de ${Math.round(anosVivir)} años; con estos supuestos, los acumulados se cruzarían alrededor del año ${equilibrio}.`;
+    } else {
+      mensaje = `En este escenario, alquilar mantiene un coste acumulado menor durante los 50 años simulados, según los datos introducidos.`;
+    }
+    mensaje +=
+      ' El resultado depende por completo de los supuestos: prueba a variar el interés, la subida del alquiler o el horizonte y observa cuánto cambia. Esta comparación no incluye revalorización ni venta de la vivienda y no es una recomendación.';
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

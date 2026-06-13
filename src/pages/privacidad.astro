@@ -1,0 +1,81 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Política de privacidad', href: '/privacidad' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Política de privacidad"
+  description="Política de privacidad de analizatudinero.com: no recogemos datos sensibles, las calculadoras funcionan localmente en tu navegador y no almacenan información."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Política de privacidad' }]} />
+
+    <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+      Política de privacidad
+    </h1>
+
+    <div class="prose-article mt-8">
+      <p class="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <strong>Nota:</strong> este texto es una base orientativa pendiente de adaptación legal
+        final (RGPD/LOPDGDD) por un profesional antes del lanzamiento definitivo.
+      </p>
+
+      <h2>Resumen en lenguaje claro</h2>
+      <p>
+        Este sitio web está construido como un sitio estático: puedes leer las guías y usar las
+        calculadoras sin registrarte y sin facilitar ningún dato personal.
+      </p>
+
+      <h2>Datos que no recogemos</h2>
+      <ul>
+        <li>No pedimos ni recogemos datos sensibles de ningún tipo.</li>
+        <li>No hay registro de usuarios, cuentas ni inicio de sesión.</li>
+        <li>
+          Las calculadoras funcionan <strong>localmente en tu navegador</strong>: los importes que
+          introduces no se guardan ni se envían a ningún servidor.
+        </li>
+      </ul>
+
+      <h2>Formularios de newsletter y contacto</h2>
+      <p>
+        Los formularios de newsletter y contacto que ves en el sitio son actualmente
+        <strong>visuales y no están conectados a ningún servicio</strong>: no envían ni almacenan
+        información. Cuando se activen, serán gestionados por un proveedor externo de email
+        marketing o formularios, y esta política se actualizará para detallar qué proveedor es, qué
+        datos trata (normalmente, solo tu dirección de correo) y cómo ejercer tus derechos de
+        acceso, rectificación y supresión.
+      </p>
+
+      <h2>Analítica y publicidad</h2>
+      <p>
+        En este momento el sitio no utiliza herramientas de analítica ni redes publicitarias. Si en
+        el futuro se incorporan, se hará con soluciones respetuosas con la privacidad cuando sea
+        posible, se informará en esta página y en la
+        <a href="/cookies">política de cookies</a>, y se solicitará el consentimiento cuando la
+        normativa lo exija.
+      </p>
+
+      <h2>Responsable y contacto</h2>
+      <p>
+        Para cualquier consulta relacionada con la privacidad, puedes escribir a
+        <a href="mailto:contacto@analizatudinero.com">contacto@analizatudinero.com</a>.
+      </p>
+
+      <h2>Cambios en esta política</h2>
+      <p>
+        Esta política se actualizará cuando cambien las herramientas o servicios utilizados por el
+        sitio. La fecha de la última revisión figurará siempre en esta página. Texto pendiente de
+        adaptación legal final.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

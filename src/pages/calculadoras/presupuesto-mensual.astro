@@ -1,0 +1,174 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+
+const campos = [
+  { id: 'alquiler', label: 'Alquiler o hipoteca', hint: 'Tu cuota mensual de vivienda.' },
+  { id: 'alimentacion', label: 'Alimentación', hint: 'Supermercado y comida del día a día.' },
+  { id: 'transporte', label: 'Transporte', hint: 'Abono, gasolina, parking…' },
+  { id: 'suministros', label: 'Suministros', hint: 'Luz, agua, gas, internet, móvil.' },
+  { id: 'ocio', label: 'Ocio', hint: 'Salir, suscripciones, hobbies.' },
+  { id: 'deudas', label: 'Deudas', hint: 'Cuotas de préstamos o pagos aplazados.' },
+  { id: 'otros', label: 'Otros gastos', hint: 'Todo lo que no encaja arriba.' },
+] as const;
+---
+
+<CalculatorLayout
+  title="Calculadora de presupuesto mensual"
+  description="Calcula tu presupuesto mensual gratis: introduce ingresos y gastos por categorías y descubre cuánto dinero te queda libre y qué porcentaje de tu sueldo gastas."
+  heading="Calculadora de presupuesto mensual"
+  intro="Introduce tus ingresos netos y tus gastos por categorías. La calculadora te dirá cuánto gastas en total, cuánto te queda libre y qué porcentaje de tus ingresos se va cada mes."
+  breadcrumbLabel="Presupuesto mensual"
+  cta={{
+    title: 'Llevar este cálculo mes a mes',
+    description: 'El módulo de presupuesto de la plantilla premium «Controla tu dinero en 30 días» repite este análisis cada mes y se actualiza solo con tu registro de gastos.',
+    buttonLabel: 'Ver el módulo incluido en la plantilla',
+    buttonHref: '/plantillas/controla-tu-dinero#presupuesto',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label for="ingresos" class="form-label">Ingresos mensuales netos (€)</label>
+        <input type="number" id="ingresos" inputmode="decimal" min="0" step="any" placeholder="1400" class="form-input" />
+        <p class="form-hint">Lo que llega a tu cuenta cada mes, después de impuestos.</p>
+      </div>
+      {
+        campos.map((campo) => (
+          <div>
+            <label for={campo.id} class="form-label">
+              {campo.label} (€)
+            </label>
+            <input type="number" id={campo.id} inputmode="decimal" min="0" step="any" placeholder="0" class="form-input" data-gasto />
+            <p class="form-hint">{campo.hint}</p>
+          </div>
+        ))
+      }
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Calcular mi presupuesto
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu resultado</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="result-card">
+        <p class="result-label">Total de gastos</p>
+        <p class="result-value" id="res-gastos">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Dinero restante</p>
+        <p class="result-value" id="res-restante">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Porcentaje gastado</p>
+        <p class="result-value" id="res-pct-gastado">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Porcentaje disponible</p>
+        <p class="result-value" id="res-pct-libre">—</p>
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="h-3 w-full overflow-hidden rounded-full bg-mint-200" aria-hidden="true">
+        <div id="res-barra" class="h-full rounded-full bg-navy-600 transition-all" style="width: 0%"></div>
+      </div>
+      <p class="mt-2 text-xs text-slate-400">Azul: gastado · Verde: disponible</p>
+    </div>
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Cómo funciona esta calculadora de presupuesto</h2>
+    <p>
+      La calculadora suma todos los gastos que introduces (vivienda, alimentación, transporte,
+      suministros, ocio, deudas y otros) y los compara con tus ingresos mensuales netos. Con esa
+      información obtienes cuatro datos clave: el total de gastos, el dinero que te queda libre, el
+      porcentaje de tus ingresos que gastas y el porcentaje que tienes disponible.
+    </p>
+    <h3>Por qué conviene hacer un presupuesto mensual</h3>
+    <p>
+      Un presupuesto no sirve para dejar de gastar, sino para saber en qué gastas. Cuando ves los
+      números agrupados por categorías es mucho más fácil detectar desequilibrios: un alquiler que
+      pesa demasiado, suscripciones acumuladas o pequeños gastos diarios que suman más de lo que
+      parecía. Si quieres profundizar, tienes la guía completa sobre
+      <a href="/guias/como-crear-un-presupuesto-mensual">cómo crear un presupuesto mensual realista</a>
+      y otra sobre <a href="/guias/como-calcular-tu-capacidad-de-ahorro">cómo calcular tu capacidad de ahorro</a>.
+    </p>
+    <h3>Qué hacer con el resultado</h3>
+    <p>
+      El resultado es una foto de tu mes, no un veredicto. Úsalo como punto de partida: revisa las
+      categorías que más pesan, comprueba si el dinero restante encaja con tus objetivos y repite el
+      cálculo cuando cambien tus ingresos o gastos. Recuerda que se trata de una estimación
+      orientativa y general, no de una recomendación personalizada.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros, formatPercent } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  const num = (id: string): number => {
+    const value = parseFloat((document.getElementById(id) as HTMLInputElement).value);
+    return Number.isFinite(value) && value >= 0 ? value : 0;
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const ingresos = num('ingresos');
+    if (ingresos <= 0) {
+      error.textContent = 'Introduce tus ingresos mensuales netos para poder calcular el presupuesto.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+
+    const gastos = Array.from(document.querySelectorAll<HTMLInputElement>('[data-gasto]')).reduce(
+      (total, input) => {
+        const value = parseFloat(input.value);
+        return total + (Number.isFinite(value) && value >= 0 ? value : 0);
+      },
+      0,
+    );
+
+    const restante = ingresos - gastos;
+    const pctGastado = (gastos / ingresos) * 100;
+    const pctLibre = Math.max(0, 100 - pctGastado);
+
+    document.getElementById('res-gastos')!.textContent = formatEuros(gastos);
+    document.getElementById('res-restante')!.textContent = formatEuros(restante);
+    document.getElementById('res-pct-gastado')!.textContent = formatPercent(pctGastado);
+    document.getElementById('res-pct-libre')!.textContent = formatPercent(pctLibre);
+    (document.getElementById('res-barra') as HTMLElement).style.width =
+      `${Math.min(100, Math.max(0, pctGastado))}%`;
+
+    let mensaje: string;
+    if (restante < 0) {
+      mensaje =
+        'Con estos datos, tus gastos superan tus ingresos. Puede ser un mes puntual, pero si se repite conviene revisar las categorías que más pesan. Este mensaje es orientativo y no tiene en cuenta tu situación completa.';
+    } else if (pctGastado > 90) {
+      mensaje =
+        'Con estos datos, gastas casi todo lo que ingresas y queda poco margen para imprevistos. Revisar las categorías más altas puede ayudarte a ganar algo de holgura. Mensaje orientativo, no personalizado.';
+    } else if (pctGastado > 70) {
+      mensaje =
+        'Con estos datos, tienes algo de margen mensual. Muchas personas usan parte de ese margen para construir un colchón para imprevistos. Mensaje orientativo, no personalizado.';
+    } else {
+      mensaje =
+        'Con estos datos, tu margen mensual es amplio en proporción a tus ingresos. Decidir qué hacer con él (ahorro, objetivos, colchón) depende de tu situación. Mensaje orientativo, no personalizado.';
+    }
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

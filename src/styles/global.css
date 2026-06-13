@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  /* Marca: azul oscuro, verde suave, grises claros */
+  --color-navy-50: #f0f5fa;
+  --color-navy-100: #dce8f3;
+  --color-navy-200: #b9d0e6;
+  --color-navy-300: #8bb0d2;
+  --color-navy-400: #5a8bb8;
+  --color-navy-500: #3a6d9c;
+  --color-navy-600: #2b557d;
+  --color-navy-700: #1f4263;
+  --color-navy-800: #16314a;
+  --color-navy-900: #0f2e4c;
+  --color-navy-950: #0a1f33;
+
+  --color-mint-50: #f1faf6;
+  --color-mint-100: #ddf3e8;
+  --color-mint-200: #bfe6d4;
+  --color-mint-300: #93d3b8;
+  --color-mint-400: #7fd1ae;
+  --color-mint-500: #3f9d75;
+  --color-mint-600: #2f7e5e;
+  --color-mint-700: #28654d;
+  --color-mint-800: #22513f;
+  --color-mint-900: #1d4335;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-slate-700 antialiased;
+}
+
+/* Estados de foco visibles para navegación por teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  @apply outline-2 outline-offset-2 outline-navy-600;
+}
+
+/* Formularios de calculadoras */
+.form-label {
+  @apply block text-sm font-semibold text-navy-900;
+}
+.form-input {
+  @apply mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:border-navy-500;
+}
+.form-hint {
+  @apply mt-1 text-xs text-slate-400;
+}
+.result-card {
+  @apply rounded-xl border border-slate-200 bg-slate-50 p-4;
+}
+.result-label {
+  @apply text-xs font-medium uppercase tracking-wide text-slate-500;
+}
+.result-value {
+  @apply mt-1 text-2xl font-bold text-navy-900;
+}
+
+/* Tipografía de artículos (sin plugin externo para mantener el build ligero) */
+.prose-article {
+  @apply text-slate-700 leading-relaxed;
+}
+.prose-article h2 {
+  @apply text-2xl font-bold text-navy-900 mt-10 mb-4;
+}
+.prose-article h3 {
+  @apply text-xl font-semibold text-navy-800 mt-8 mb-3;
+}
+.prose-article p {
+  @apply my-4;
+}
+.prose-article ul {
+  @apply my-4 list-disc pl-6 space-y-2;
+}
+.prose-article ol {
+  @apply my-4 list-decimal pl-6 space-y-2;
+}
+.prose-article a {
+  @apply text-navy-700 font-medium underline decoration-mint-400 decoration-2 underline-offset-2 hover:text-navy-900 hover:decoration-mint-500;
+}
+.prose-article strong {
+  @apply font-semibold text-navy-900;
+}
+.prose-article blockquote {
+  @apply border-l-4 border-mint-300 pl-4 italic text-slate-600 my-6;
+}
+.prose-article table {
+  @apply w-full my-6 text-sm border-collapse;
+}
+.prose-article th {
+  @apply text-left font-semibold text-navy-900 border-b-2 border-slate-200 px-3 py-2;
+}
+.prose-article td {
+  @apply border-b border-slate-100 px-3 py-2;
+}
+.prose-article hr {
+  @apply my-8 border-slate-200;
+}

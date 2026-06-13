@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Card from '@components/Card.astro';
+import CTABox from '@components/CTABox.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+const guias = (await getCollection('guias', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Guías', href: '/guias' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Guías de educación financiera práctica"
+  description="Guías claras en español sobre presupuesto, ahorro, alquiler, mudanzas e independencia: cómo organizar tu primer sueldo, crear un presupuesto realista y mucho más."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Guías' }]} />
+
+    <header class="mt-6 max-w-2xl">
+      <h1 class="text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+        Guías para entender tu dinero
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-600">
+        Explicaciones paso a paso sobre las decisiones económicas más habituales: tu primer sueldo,
+        el presupuesto mensual, independizarte, mudarte o comparar ofertas de trabajo. En lenguaje
+        claro y con ejemplos prácticos.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        guias.map((guia) => (
+          <Card
+            title={guia.data.title}
+            description={guia.data.description}
+            href={`/guias/${guia.id}`}
+            linkLabel="Leer guía"
+            icon="guide"
+            badge="Guía"
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-16">
+      <CTABox
+        title="¿Prefieres empezar con números?"
+        description="Las calculadoras te dan resultados al momento con tus propios datos. Después, las guías te ayudan a interpretarlos."
+        buttonLabel="Ver calculadoras"
+        buttonHref="/calculadoras"
+      />
+    </div>
+  </div>
+</BaseLayout>

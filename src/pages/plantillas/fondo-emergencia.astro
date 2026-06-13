@@ -1,0 +1,29 @@
+---
+import PlantillaModuloPage from '@components/PlantillaModuloPage.astro';
+---
+
+<PlantillaModuloPage
+  title="Plantilla de fondo de emergencia"
+  description="Cómo funciona el módulo de fondo de emergencia de la plantilla Controla tu dinero en 30 días: objetivo según tus gastos esenciales y seguimiento del progreso mes a mes."
+  heading="Plantilla de fondo de emergencia"
+  intro="Saber cuánto colchón necesitas es fácil; lo difícil es mantener el progreso a la vista mes tras mes. Para eso está el módulo de fondo de emergencia de la plantilla premium."
+  breadcrumbLabel="Fondo de emergencia"
+  moduloIds={['fondo-emergencia', 'objetivos']}
+  calculadora={{ label: 'Calculadora de fondo de emergencia (gratis)', href: '/calculadoras/fondo-emergencia' }}
+>
+  <h2>El problema: el colchón que nunca se termina</h2>
+  <p>
+    Casi todo el mundo sabe que conviene tener un fondo para imprevistos. El fallo está en la
+    ejecución: se empieza con impulso, llega un mes complicado, se pierde la cuenta de cuánto se
+    llevaba y el objetivo se diluye. Sin un sitio donde ver el progreso, el fondo de emergencia se
+    queda para siempre en "ya lo retomaré".
+  </p>
+  <h2>Cómo lo resuelve el módulo</h2>
+  <p>
+    El módulo calcula tu objetivo a partir de tus gastos esenciales y los meses que quieras cubrir,
+    y convierte el camino en una barra de progreso: lo ahorrado, lo pendiente y el ahorro mensual
+    necesario para llegar en la fecha que tú marques. Junto con el módulo de objetivos de ahorro,
+    convierte una intención difusa en una cifra con fecha. El método completo está en la guía de
+    <a href="/guias/como-calcular-tu-capacidad-de-ahorro">cómo calcular tu capacidad de ahorro</a>.
+  </p>
+</PlantillaModuloPage>

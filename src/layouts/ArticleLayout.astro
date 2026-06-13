@@ -1,0 +1,95 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import DisclaimerBox from '@components/DisclaimerBox.astro';
+import CTABox from '@components/CTABox.astro';
+import { articleJsonLd, breadcrumbsJsonLd, canonicalUrl } from '@utils/seo';
+import { formatDate } from '@utils/formatters';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  /** Sección a la que pertenece el artículo. */
+  section: { label: string; href: string };
+  cta?: {
+    title: string;
+    description: string;
+    buttonLabel: string;
+    buttonHref: string;
+    secondaryLabel?: string;
+    secondaryHref?: string;
+    secondaryDownload?: boolean;
+    note?: string;
+  };
+}
+
+const { title, description, pubDate, updatedDate, section, cta } = Astro.props;
+
+const jsonLd = [
+  articleJsonLd({
+    title,
+    description,
+    url: canonicalUrl(Astro.url.pathname),
+    datePublished: pubDate.toISOString(),
+    dateModified: updatedDate?.toISOString(),
+  }),
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: section.label, href: section.href },
+    { label: title, href: Astro.url.pathname },
+  ]),
+];
+---
+
+<BaseLayout {title} {description} type="article" {jsonLd}>
+  <article class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: section.label, href: section.href }, { label: title }]} />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-600">{description}</p>
+      <p class="mt-4 text-sm text-slate-400">
+        <span>Equipo de Analiza Tu Dinero</span>
+        <span aria-hidden="true"> · </span>
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {
+          updatedDate && (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>
+                Actualizado: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+              </span>
+            </>
+          )
+        }
+      </p>
+    </header>
+
+    <div class="mt-6">
+      <DisclaimerBox />
+    </div>
+
+    <div class="prose-article mt-8">
+      <slot />
+    </div>
+
+    {
+      cta && (
+        <div class="mt-12">
+          <CTABox
+            title={cta.title}
+            description={cta.description}
+            buttonLabel={cta.buttonLabel}
+            buttonHref={cta.buttonHref}
+            secondaryLabel={cta.secondaryLabel}
+            secondaryHref={cta.secondaryHref}
+            secondaryDownload={cta.secondaryDownload}
+            note={cta.note}
+          />
+        </div>
+      )
+    }
+  </article>
+</BaseLayout>

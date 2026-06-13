@@ -1,0 +1,145 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+---
+
+<CalculatorLayout
+  title="Calculadora: vivir solo vs compartir piso"
+  description="Compara cuánto cuesta vivir solo frente a compartir piso: diferencia mensual y anual y porcentaje de tu sueldo en cada escenario. Gratis y sin guardar datos."
+  heading="Vivir solo vs compartir piso"
+  intro="Introduce el coste mensual estimado de cada opción y tus ingresos netos. La calculadora te mostrará la diferencia al mes y al año, y qué parte de tu sueldo se llevaría cada escenario."
+  breadcrumbLabel="Vivir solo vs compartir"
+  cta={{
+    title: 'Llevar esta comparación mes a mes',
+    description: 'El módulo vivir solo vs compartir de la plantilla premium «Controla tu dinero en 30 días» mantiene la comparación actualizada con tus ingresos y gastos reales.',
+    buttonLabel: 'Ver el módulo incluido en la plantilla',
+    buttonHref: '/plantillas/controla-tu-dinero#vivir-solo-compartir',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-3">
+      <div>
+        <label for="solo" class="form-label">Coste mensual viviendo solo (€)</label>
+        <input type="number" id="solo" inputmode="decimal" min="0" step="any" placeholder="850" class="form-input" />
+        <p class="form-hint">Alquiler completo más suministros íntegros.</p>
+      </div>
+      <div>
+        <label for="compartido" class="form-label">Coste mensual compartiendo (€)</label>
+        <input type="number" id="compartido" inputmode="decimal" min="0" step="any" placeholder="450" class="form-input" />
+        <p class="form-hint">Tu habitación más tu parte de los gastos comunes.</p>
+      </div>
+      <div>
+        <label for="ingresos" class="form-label">Ingresos mensuales netos (€)</label>
+        <input type="number" id="ingresos" inputmode="decimal" min="0" step="any" placeholder="1400" class="form-input" />
+        <p class="form-hint">Para calcular el porcentaje del sueldo en cada caso.</p>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Comparar escenarios
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu comparación</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="result-card">
+        <p class="result-label">Diferencia mensual</p>
+        <p class="result-value" id="res-mensual">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Diferencia anual</p>
+        <p class="result-value" id="res-anual">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">% del sueldo viviendo solo</p>
+        <p class="result-value" id="res-pct-solo">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">% del sueldo compartiendo</p>
+        <p class="result-value" id="res-pct-compartido">—</p>
+      </div>
+    </div>
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Cómo comparar vivir solo con compartir piso</h2>
+    <p>
+      La comparación económica básica es sencilla: el coste mensual total de cada opción y la
+      diferencia entre ambas, vista también en términos anuales. Esa cifra anual suele ser la más
+      reveladora, porque una diferencia de unos cientos de euros al mes se convierte en miles al
+      año, y eso cambia la conversación.
+    </p>
+    <h3>Qué incluir en cada escenario</h3>
+    <p>
+      Para que la comparación sea justa, incluye en ambos casos el alquiler (completo o tu parte),
+      los suministros (íntegros o divididos), internet y cualquier gasto común. Compartir piso suele
+      diluir gastos fijos como el wifi o la luz, mientras que vivir solo implica asumirlos al
+      completo. La guía sobre
+      <a href="/guias/vivir-solo-o-compartir-piso">vivir solo o compartir piso</a> repasa
+      el detalle con ejemplos.
+    </p>
+    <h3>El dinero no es el único factor</h3>
+    <p>
+      Esta calculadora compara costes, pero la decisión incluye intangibles: independencia,
+      convivencia, ubicación o estabilidad. El objetivo es que la parte económica esté clara para
+      que el resto de la decisión sea más fácil. Como siempre, el resultado es una estimación
+      orientativa con los datos que introduces, no una recomendación personalizada.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros, formatPercent } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const solo = parseFloat((document.getElementById('solo') as HTMLInputElement).value);
+    const compartido = parseFloat((document.getElementById('compartido') as HTMLInputElement).value);
+    const ingresos = parseFloat((document.getElementById('ingresos') as HTMLInputElement).value);
+
+    if (!Number.isFinite(solo) || solo <= 0 || !Number.isFinite(compartido) || compartido <= 0) {
+      error.textContent = 'Introduce el coste mensual estimado de los dos escenarios para compararlos.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+
+    const difMensual = solo - compartido;
+    const difAnual = difMensual * 12;
+
+    document.getElementById('res-mensual')!.textContent = formatEuros(Math.abs(difMensual));
+    document.getElementById('res-anual')!.textContent = formatEuros(Math.abs(difAnual));
+
+    const tieneIngresos = Number.isFinite(ingresos) && ingresos > 0;
+    document.getElementById('res-pct-solo')!.textContent = tieneIngresos
+      ? formatPercent((solo / ingresos) * 100)
+      : '—';
+    document.getElementById('res-pct-compartido')!.textContent = tieneIngresos
+      ? formatPercent((compartido / ingresos) * 100)
+      : '—';
+
+    const masBarato = difMensual > 0 ? 'compartir piso' : 'vivir solo';
+    let mensaje =
+      difMensual === 0
+        ? 'Con estos datos, ambos escenarios cuestan lo mismo al mes.'
+        : `Con estos datos, ${masBarato} te costaría ${formatEuros(Math.abs(difMensual))} menos al mes, es decir, ${formatEuros(Math.abs(difAnual))} al año.`;
+    if (!tieneIngresos) {
+      mensaje += ' Si añades tus ingresos netos, verás también qué porcentaje del sueldo supone cada opción.';
+    }
+    mensaje += ' Estimación orientativa: la decisión final depende de muchos más factores que el coste.';
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

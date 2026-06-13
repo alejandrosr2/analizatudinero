@@ -1,0 +1,119 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+
+const campos = [
+  { id: 'fianza', label: 'Fianza', hint: 'Suele equivaler a una o dos mensualidades.', placeholder: '700' },
+  { id: 'primer-mes', label: 'Primer mes de alquiler', hint: 'La primera mensualidad que pagarás al entrar.', placeholder: '700' },
+  { id: 'agencia', label: 'Agencia / inmobiliaria', hint: 'Honorarios si hay intermediario. Pon 0 si no aplica.', placeholder: '0' },
+  { id: 'transporte', label: 'Transporte de la mudanza', hint: 'Furgoneta, empresa de mudanzas, envíos…', placeholder: '150' },
+  { id: 'muebles', label: 'Muebles y equipamiento', hint: 'Lo que necesites comprar al llegar.', placeholder: '300' },
+  { id: 'iniciales', label: 'Gastos iniciales', hint: 'Altas de suministros, compra inicial, pequeños arreglos.', placeholder: '200' },
+  { id: 'colchon', label: 'Colchón de seguridad', hint: 'Margen extra para imprevistos del primer mes.', placeholder: '300' },
+] as const;
+---
+
+<CalculatorLayout
+  title="Calculadora de coste de mudanza"
+  description="Calcula cuánto dinero necesitas para mudarte: fianza, primer mes de alquiler, agencia, transporte, muebles, gastos iniciales y colchón de seguridad. Gratis y sin guardar datos."
+  heading="Calculadora de coste de mudanza"
+  intro="Suma todos los gastos de una mudanza —fianza, primer mes, agencia, transporte, muebles, gastos iniciales y colchón de seguridad— y obtén el coste total estimado de tu cambio de casa."
+  breadcrumbLabel="Coste de mudanza"
+  cta={{
+    title: 'Organizar este cálculo en la plantilla premium',
+    description: 'El simulador de mudanza de «Controla tu dinero en 30 días» guarda tus partidas, las conecta con tu colchón y te acompaña hasta el día de la firma.',
+    buttonLabel: 'Ver el módulo incluido en la plantilla',
+    buttonHref: '/plantillas/controla-tu-dinero#mudanza',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      {
+        campos.map((campo) => (
+          <div>
+            <label for={campo.id} class="form-label">
+              {campo.label} (€)
+            </label>
+            <input type="number" id={campo.id} inputmode="decimal" min="0" step="any" placeholder={campo.placeholder} class="form-input" data-coste />
+            <p class="form-hint">{campo.hint}</p>
+          </div>
+        ))
+      }
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Calcular coste de mudanza
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu resultado</h2>
+    <div class="mt-4">
+      <div class="result-card">
+        <p class="result-label">Coste total estimado de la mudanza</p>
+        <p class="result-value text-3xl" id="res-total">—</p>
+      </div>
+    </div>
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Qué incluye el coste real de una mudanza</h2>
+    <p>
+      Mudarse casi nunca cuesta solo "el alquiler". El desembolso inicial suele concentrar varios
+      pagos en pocas semanas: la fianza, la primera mensualidad, los honorarios de agencia si los
+      hay, el transporte de tus cosas, los muebles o equipamiento que falten y los gastos iniciales
+      de instalación, como altas de suministros o la primera compra grande.
+    </p>
+    <h3>Por qué añadir un colchón de seguridad</h3>
+    <p>
+      Los imprevistos del primer mes son muy frecuentes: un electrodoméstico que falla, un gasto de
+      instalación que no contemplabas o simplemente que todo cuesta un poco más de lo previsto.
+      Añadir un margen extra al cálculo evita empezar la nueva etapa con la cuenta a cero.
+    </p>
+    <h3>Cómo usar el resultado</h3>
+    <p>
+      El total que obtienes es el dinero que conviene tener disponible antes de firmar, no el coste
+      mensual de vivir en el nuevo piso. Para eso último te servirán la calculadora de
+      <a href="/calculadoras/presupuesto-mensual">presupuesto mensual</a> y la de
+      <a href="/calculadoras/alquiler-maximo">alquiler máximo</a>. Si te mudas a otra ciudad, la guía
+      sobre <a href="/guias/cuanto-dinero-necesitas-para-mudarte">cuánto dinero necesitas para mudarte</a>
+      repasa los errores más comunes. Todas las cifras son estimaciones orientativas.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('[data-coste]'));
+    const total = inputs.reduce((suma, input) => {
+      const value = parseFloat(input.value);
+      return suma + (Number.isFinite(value) && value >= 0 ? value : 0);
+    }, 0);
+
+    if (total <= 0) {
+      error.textContent = 'Introduce al menos un gasto para estimar el coste de tu mudanza.';
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+      return;
+    }
+
+    document.getElementById('res-total')!.textContent = formatEuros(total);
+    document.getElementById('res-mensaje')!.textContent =
+      `Con los datos que has introducido, necesitarías tener disponibles aproximadamente ${formatEuros(total)} antes de mudarte. Es el desembolso inicial estimado, no el coste mensual de vivir en la nueva vivienda. Estimación orientativa: revisa cada partida con presupuestos reales antes de decidir.`;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

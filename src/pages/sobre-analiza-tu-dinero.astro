@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import CTABox from '@components/CTABox.astro';
+import { breadcrumbsJsonLd, organizationJsonLd } from '@utils/seo';
+
+const jsonLd = [
+  organizationJsonLd(),
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Sobre el proyecto', href: '/sobre-analiza-tu-dinero' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Sobre Analiza Tu Dinero"
+  description="Analiza Tu Dinero es un proyecto independiente de educación financiera práctica: calculadoras, plantillas y guías para entender gastos, ingresos y decisiones cotidianas."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Sobre el proyecto' }]} />
+
+    <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+      Sobre Analiza Tu Dinero
+    </h1>
+
+    <div class="prose-article mt-8">
+      <p>
+        <strong>Analiza Tu Dinero es un proyecto independiente de educación financiera práctica.
+        Publicamos herramientas, plantillas y guías para ayudar a entender mejor gastos, ingresos y
+        decisiones económicas cotidianas. No ofrecemos asesoramiento financiero, fiscal, legal ni de
+        inversión.</strong>
+      </p>
+
+      <h2>Qué es este proyecto</h2>
+      <p>
+        Analiza Tu Dinero es un proyecto editorial centrado en una idea sencilla: la mayoría de las
+        decisiones económicas del día a día —cuánto alquiler puedes asumir, si te compensa mudarte,
+        cuánto deberías tener como colchón— mejoran mucho cuando les pones números antes de decidir.
+        Nuestro trabajo es darte las herramientas para hacerlo sin complicarte.
+      </p>
+
+      <h2>Qué ofrecemos</h2>
+      <ul>
+        <li>
+          <strong>Calculadoras gratuitas</strong> que funcionan en tu navegador y no guardan datos:
+          presupuesto mensual, alquiler máximo, fondo de emergencia, coste de mudanza y comparativa
+          de vivienda.
+        </li>
+        <li>
+          <strong>Guías prácticas</strong> en lenguaje claro sobre primer sueldo, presupuesto,
+          independencia, mudanzas y comparación de ofertas de trabajo.
+        </li>
+        <li>
+          <strong>Análisis con metodología</strong>: formas de razonar decisiones económicas usando
+          ejemplos hipotéticos que puedes sustituir por tus datos reales.
+        </li>
+        <li>
+          <strong>Plantillas sencillas</strong> (en preparación) para hacer seguimiento de tu dinero
+          mes a mes.
+        </li>
+      </ul>
+
+      <h2>Qué no ofrecemos</h2>
+      <ul>
+        <li>No damos asesoramiento financiero, fiscal, legal ni de inversión.</li>
+        <li>No recomendamos bancos, tarjetas, préstamos, brókers ni criptomonedas.</li>
+        <li>No hacemos recomendaciones personalizadas: todo nuestro contenido es general y educativo.</li>
+        <li>No prometemos resultados económicos ni "fórmulas para hacerse rico".</li>
+      </ul>
+
+      <h2>Por qué existe</h2>
+      <p>
+        Porque hay un hueco enorme entre el contenido financiero que promete rentabilidades
+        increíbles y la realidad de quien cobra su primer sueldo y simplemente quiere saber si puede
+        permitirse independizarse. Creemos que la educación financiera útil empieza por lo básico:
+        entender lo que entra, lo que sale y lo que implica cada decisión. Y que eso se aprende
+        mejor con herramientas que con sermones.
+      </p>
+
+      <h2>Nuestro enfoque</h2>
+      <p>
+        Trabajamos con tres principios: <strong>herramientas</strong> antes que opiniones,
+        <strong>datos del usuario</strong> antes que cifras genéricas, y
+        <strong>educación práctica</strong> antes que teoría. Cada calculadora, guía y plantilla está
+        pensada para que la uses con tus propios números y saques tus propias conclusiones.
+      </p>
+      <p>
+        Si detectas un error o tienes una sugerencia, nos encantará saberlo a través de la
+        <a href="/contacto">página de contacto</a>.
+      </p>
+
+      <p class="text-slate-500">— Equipo de Analiza Tu Dinero</p>
+    </div>
+
+    <div class="mt-12">
+      <CTABox
+        title="Conoce las herramientas"
+        description="La mejor forma de entender el proyecto es usar una calculadora con tus propios números."
+        buttonLabel="Ver calculadoras"
+        buttonHref="/calculadoras"
+        secondaryLabel="Leer las guías"
+        secondaryHref="/guias"
+      />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const { title, subtitle, primaryLabel, primaryHref, secondaryLabel, secondaryHref } = Astro.props;
+---
+
+<section class="border-b border-slate-100 bg-gradient-to-b from-navy-50/60 to-white">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+    <div class="mx-auto max-w-3xl text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight text-navy-900 sm:text-5xl">{title}</h1>
+      <p class="mt-5 text-lg leading-relaxed text-slate-600 sm:text-xl">{subtitle}</p>
+      {
+        (primaryLabel || secondaryLabel) && (
+          <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            {primaryLabel && primaryHref && (
+              <a
+                href={primaryHref}
+                class="w-full rounded-lg bg-navy-900 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+              >
+                {primaryLabel}
+              </a>
+            )}
+            {secondaryLabel && secondaryHref && (
+              <a
+                href={secondaryHref}
+                class="w-full rounded-lg border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50 sm:w-auto"
+              >
+                {secondaryLabel}
+              </a>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

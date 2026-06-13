@@ -1,0 +1,75 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Política de cookies', href: '/cookies' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Política de cookies"
+  description="Política de cookies de analizatudinero.com: actualmente el sitio no instala cookies de seguimiento. Información sobre posibles cookies técnicas, de analítica y publicidad futuras."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Política de cookies' }]} />
+
+    <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+      Política de cookies
+    </h1>
+
+    <div class="prose-article mt-8">
+      <p class="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <strong>Nota:</strong> esta política está pendiente de configuración final. Se actualizará
+        antes de incorporar cualquier herramienta que utilice cookies no técnicas.
+      </p>
+
+      <h2>Situación actual</h2>
+      <p>
+        analizatudinero.com es un sitio estático que, a día de hoy, <strong>no instala cookies de
+        seguimiento, analítica ni publicidad</strong>. Las calculadoras funcionan en tu navegador
+        sin necesidad de cookies.
+      </p>
+
+      <h2>Cookies técnicas</h2>
+      <p>
+        El sitio puede utilizar cookies o almacenamiento técnico estrictamente necesarios para su
+        funcionamiento (por ejemplo, los que pueda requerir el proveedor de alojamiento por motivos
+        de seguridad o rendimiento). Estas cookies no requieren consentimiento según la normativa
+        vigente.
+      </p>
+
+      <h2>Analítica (futuro)</h2>
+      <p>
+        En el futuro podríamos incorporar una herramienta de analítica para entender qué contenidos
+        resultan más útiles. Si la herramienta elegida utiliza cookies que requieran consentimiento,
+        se mostrará un aviso de cookies y se actualizará esta política antes de activarla.
+      </p>
+
+      <h2>Publicidad (futuro)</h2>
+      <p>
+        Si en algún momento se incorpora publicidad, las redes publicitarias podrían utilizar
+        cookies propias o de terceros. En ese caso, se implementará un sistema de gestión de
+        consentimiento y se detallarán aquí las cookies utilizadas, su finalidad y su duración.
+      </p>
+
+      <h2>Cómo gestionar las cookies</h2>
+      <p>
+        Puedes configurar tu navegador para bloquear o eliminar cookies en cualquier momento desde
+        sus ajustes de privacidad. Ten en cuenta que bloquear cookies técnicas podría afectar al
+        funcionamiento de algunos sitios web.
+      </p>
+
+      <h2>Contacto</h2>
+      <p>
+        Para cualquier duda sobre esta política, escribe a
+        <a href="mailto:contacto@analizatudinero.com">contacto@analizatudinero.com</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

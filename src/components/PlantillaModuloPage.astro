@@ -1,0 +1,115 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import DisclaimerBox from '@components/DisclaimerBox.astro';
+import CTABox from '@components/CTABox.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+import { DEMO, MODULOS, PRODUCTO } from '@utils/modulos';
+
+interface Props {
+  /** Título SEO de la página. */
+  title: string;
+  description: string;
+  /** H1 visible. */
+  heading: string;
+  /** Intro bajo el H1. */
+  intro: string;
+  /** Nombre corto para migas de pan. */
+  breadcrumbLabel: string;
+  /** Ids de los módulos del pack relacionados con esta página (el primero manda en el CTA). */
+  moduloIds: string[];
+  /** Calculadora gratuita relacionada. */
+  calculadora: { label: string; href: string };
+}
+
+const { title, description, heading, intro, breadcrumbLabel, moduloIds, calculadora } = Astro.props;
+
+const modulos = MODULOS.filter((m) => moduloIds.includes(m.id));
+const anchorPrincipal = `${PRODUCTO.url}#${moduloIds[0]}`;
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Plantillas', href: '/plantillas' },
+    { label: breadcrumbLabel, href: Astro.url.pathname },
+  ]),
+];
+---
+
+<BaseLayout {title} {description} {jsonLd}>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={[{ label: 'Plantillas', href: '/plantillas' }, { label: breadcrumbLabel }]} />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">{heading}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-600">{intro}</p>
+    </header>
+
+    <!-- Aviso de que no es un producto separado -->
+    <p class="mt-6 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800">
+      Este módulo forma parte de la plantilla premium
+      <a href={anchorPrincipal} class="font-semibold underline decoration-mint-400 decoration-2 underline-offset-2 hover:text-navy-950">
+        {PRODUCTO.nombre}
+      </a>. No se vende por separado: el pack completo incluye los diez módulos en un único archivo.
+    </p>
+
+    <div class="prose-article mt-8">
+      <slot />
+    </div>
+
+    <!-- Prueba gratis -->
+    <section class="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
+      <h2 class="text-lg font-bold text-navy-900">Pruébalo gratis antes</h2>
+      <p class="mt-2 text-sm leading-relaxed text-slate-600">
+        La versión en línea de este cálculo es gratuita y no guarda datos. El módulo de la plantilla
+        te permite repetirlo mes a mes, conectado con tu presupuesto.
+      </p>
+      <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+        <a
+          href={calculadora.href}
+          class="rounded-lg border border-navy-200 bg-navy-50 px-5 py-2.5 text-center text-sm font-semibold text-navy-900 transition-colors hover:bg-navy-100"
+        >
+          {calculadora.label}
+        </a>
+        <a
+          href={DEMO.url}
+          download
+          class="rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-center text-sm font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50"
+        >
+          Descargar demo de la plantilla
+        </a>
+      </div>
+      <p class="mt-3 text-xs text-slate-400">{DEMO.aviso}.</p>
+    </section>
+
+    <!-- Módulos relacionados del pack -->
+    <section class="mt-10">
+      <h2 class="text-lg font-bold text-navy-900">Lo que cubre dentro del pack</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          modulos.map((modulo) => (
+            <article class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h3 class="text-sm font-bold text-navy-900">{modulo.nombre}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{modulo.problema}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <div class="mt-10">
+      <DisclaimerBox text="Contenido educativo, no asesoramiento financiero. La plantilla es una herramienta de organización personal y no garantiza ningún resultado económico." />
+    </div>
+
+    <div class="mt-10">
+      <CTABox
+        title={`Incluido en ${PRODUCTO.nombre}`}
+        description={`Los diez módulos en un único archivo editable, con plan de 30 días y revisión mensual guiada. ${PRODUCTO.precio} ${PRODUCTO.precioNota}.`}
+        buttonLabel="Ver la plantilla completa"
+        buttonHref={anchorPrincipal}
+        secondaryLabel="Ver preview no editable"
+        secondaryHref={`${PRODUCTO.url}#preview`}
+      />
+    </div>
+  </div>
+</BaseLayout>

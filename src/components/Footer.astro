@@ -1,0 +1,86 @@
+---
+const year = new Date().getFullYear();
+
+const mainLinks = [
+  { label: 'Calculadoras', href: '/calculadoras' },
+  { label: 'Plantillas', href: '/plantillas' },
+  { label: 'Guías', href: '/guias' },
+  { label: 'Análisis', href: '/analisis' },
+];
+
+const projectLinks = [
+  { label: 'Sobre el proyecto', href: '/sobre-analiza-tu-dinero' },
+  { label: 'Contacto', href: '/contacto' },
+];
+
+const legalLinks = [
+  { label: 'Aviso legal', href: '/aviso-legal' },
+  { label: 'Política de privacidad', href: '/privacidad' },
+  { label: 'Política de cookies', href: '/cookies' },
+];
+---
+
+<footer class="border-t border-slate-200 bg-slate-50">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div class="grid gap-10 md:grid-cols-4">
+      <div class="md:col-span-1">
+        <p class="text-lg font-bold text-navy-900">Analiza Tu Dinero</p>
+        <p class="mt-3 text-sm leading-relaxed text-slate-600">
+          Herramientas, plantillas y guías para organizar tu economía personal sin complicarte.
+        </p>
+      </div>
+
+      <nav aria-label="Enlaces principales">
+        <p class="text-sm font-semibold uppercase tracking-wide text-navy-900">Herramientas</p>
+        <ul class="mt-3 space-y-2">
+          {
+            mainLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-slate-600 hover:text-navy-900 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Enlaces del proyecto">
+        <p class="text-sm font-semibold uppercase tracking-wide text-navy-900">Proyecto</p>
+        <ul class="mt-3 space-y-2">
+          {
+            projectLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-slate-600 hover:text-navy-900 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Enlaces legales">
+        <p class="text-sm font-semibold uppercase tracking-wide text-navy-900">Legal</p>
+        <ul class="mt-3 space-y-2">
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-slate-600 hover:text-navy-900 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-10 border-t border-slate-200 pt-6">
+      <p class="text-sm text-slate-500">
+        Contenido educativo. No asesoramiento financiero, fiscal, legal ni de inversión.
+      </p>
+      <p class="mt-2 text-sm text-slate-400">© {year} Analiza Tu Dinero. Proyecto editorial independiente.</p>
+    </div>
+  </div>
+</footer>

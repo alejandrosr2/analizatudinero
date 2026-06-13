@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Remove-Item -Recurse -Force public\\\\plantillas -Confirm:$false)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

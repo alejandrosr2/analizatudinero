@@ -1,0 +1,29 @@
+---
+import PlantillaModuloPage from '@components/PlantillaModuloPage.astro';
+---
+
+<PlantillaModuloPage
+  title="Plantilla vivir solo vs compartir piso"
+  description="Cómo funciona el módulo vivir solo vs compartir piso de la plantilla Controla tu dinero en 30 días: coste total mensual y anual de cada opción con tus números."
+  heading="Plantilla: vivir solo vs compartir piso"
+  intro="Comparar alquileres es fácil; comparar costes totales, no tanto. El módulo de la plantilla premium hace la comparación completa con tus números y la mantiene actualizada."
+  breadcrumbLabel="Vivir solo vs compartir"
+  moduloIds={['vivir-solo-compartir', 'alquiler']}
+  calculadora={{ label: 'Calculadora vivir solo vs compartir (gratis)', href: '/calculadoras/vivir-solo-compartir' }}
+>
+  <h2>El problema: comparar solo los alquileres</h2>
+  <p>
+    Entre vivir solo y compartir piso no se comparan dos alquileres: se comparan dos costes de vida.
+    Suministros sin dividir, internet íntegro, reposiciones que asumes tú solo… la diferencia real
+    suele ser bastante mayor que la diferencia de alquileres, y verla en términos anuales cambia la
+    conversación por completo.
+  </p>
+  <h2>Cómo lo resuelve el módulo</h2>
+  <p>
+    El módulo recoge el coste completo de cada escenario, calcula la diferencia mensual y anual y te
+    muestra qué porcentaje de tu sueldo se lleva cada opción, usando los ingresos que ya tienes
+    registrados en la plantilla. Así, la parte económica de la decisión queda clara y puedes
+    centrarte en lo que los números no miden. El método con ejemplos está en la guía de
+    <a href="/guias/vivir-solo-o-compartir-piso">vivir solo o compartir piso</a>.
+  </p>
+</PlantillaModuloPage>

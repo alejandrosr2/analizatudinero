@@ -1,0 +1,97 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import DisclaimerBox from '@components/DisclaimerBox.astro';
+import CTABox from '@components/CTABox.astro';
+import { breadcrumbsJsonLd } from '@utils/seo';
+
+interface Props {
+  /** Título SEO de la página. */
+  title: string;
+  description: string;
+  /** H1 visible de la calculadora. */
+  heading: string;
+  /** Texto introductorio bajo el H1. */
+  intro: string;
+  /** Nombre corto para las migas de pan. */
+  breadcrumbLabel: string;
+  /** Texto del aviso educativo. Si no se indica, se usa el genérico de calculadoras. */
+  disclaimer?: string;
+  /** CTA final (normalmente hacia la plantilla premium y la demo). */
+  cta?: {
+    title: string;
+    description: string;
+    buttonLabel: string;
+    buttonHref: string;
+    secondaryLabel?: string;
+    secondaryHref?: string;
+    secondaryDownload?: boolean;
+    note?: string;
+  };
+}
+
+const {
+  title,
+  description,
+  heading,
+  intro,
+  breadcrumbLabel,
+  cta,
+  disclaimer = 'Esta calculadora ofrece estimaciones orientativas con los datos que introduces. No guarda ni envía información: todo se calcula en tu navegador. No es asesoramiento financiero.',
+} = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Calculadoras', href: '/calculadoras' },
+  { label: breadcrumbLabel },
+];
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Calculadoras', href: '/calculadoras' },
+    { label: breadcrumbLabel, href: Astro.url.pathname },
+  ]),
+];
+---
+
+<BaseLayout {title} {description} {jsonLd}>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">{heading}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-slate-600">{intro}</p>
+    </header>
+
+    <div class="mt-6">
+      <DisclaimerBox text={disclaimer} />
+    </div>
+
+    <!-- Formulario y resultados de la calculadora -->
+    <div class="mt-8">
+      <slot />
+    </div>
+
+    <!-- Explicación SEO -->
+    <section class="prose-article mt-12 border-t border-slate-200 pt-10">
+      <slot name="explicacion" />
+    </section>
+
+    {
+      cta && (
+        <div class="mt-12">
+          <CTABox
+            title={cta.title}
+            description={cta.description}
+            buttonLabel={cta.buttonLabel}
+            buttonHref={cta.buttonHref}
+            secondaryLabel={cta.secondaryLabel}
+            secondaryHref={cta.secondaryHref}
+            secondaryDownload={cta.secondaryDownload}
+            note={cta.note}
+          />
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

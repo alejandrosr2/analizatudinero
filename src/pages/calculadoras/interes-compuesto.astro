@@ -1,0 +1,256 @@
+---
+import CalculatorLayout from '@components/CalculatorLayout.astro';
+---
+
+<CalculatorLayout
+  title="Calculadora de interés compuesto (simulador educativo)"
+  description="Simula el crecimiento compuesto de una cantidad con aportaciones mensuales y una tasa hipotética: valor final, aportaciones, tabla anual y ajuste por inflación. Herramienta educativa, sin recomendaciones de inversión."
+  heading="Calculadora de interés compuesto"
+  intro="Un simulador educativo para entender cómo funciona el crecimiento compuesto: introduce una cantidad inicial, una aportación mensual, una tasa anual hipotética y un plazo, y observa cómo evoluciona el resultado año a año."
+  breadcrumbLabel="Interés compuesto"
+  disclaimer="Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Esta es una simulación matemática basada en una tasa hipotética que introduces tú: no representa rentabilidades futuras, no recomienda invertir ni contratar ningún producto financiero, y sus resultados son estimaciones basadas en tus datos."
+  cta={{
+    title: 'El primer paso no es una tasa: es tu margen',
+    description: 'Antes de pensar en crecimientos hipotéticos, conviene saber cuánto puedes apartar de verdad cada mes. La plantilla premium «Controla tu dinero en 30 días» organiza tu presupuesto y tus objetivos de ahorro; la demo te la enseña por dentro.',
+    buttonLabel: 'Ver la plantilla premium',
+    buttonHref: '/plantillas/controla-tu-dinero#objetivos',
+    secondaryLabel: 'Descargar demo gratis',
+    secondaryHref: '/descargas/analiza-tu-dinero-demo-no-editable.xlsx',
+    secondaryDownload: true,
+    note: 'Archivo .xlsx · Datos ficticios · Solo visualización',
+  }}
+>
+  <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="inicial" class="form-label">Cantidad inicial (€)</label>
+        <input type="number" id="inicial" inputmode="decimal" min="0" step="any" placeholder="1000" class="form-input" />
+        <p class="form-hint">El punto de partida de la simulación (puede ser 0).</p>
+      </div>
+      <div>
+        <label for="aportacion" class="form-label">Aportación mensual (€)</label>
+        <input type="number" id="aportacion" inputmode="decimal" min="0" step="any" placeholder="100" class="form-input" />
+        <p class="form-hint">Lo que se añade cada mes en la simulación (puede ser 0).</p>
+      </div>
+      <div>
+        <label for="tasa" class="form-label">Tasa anual hipotética (%)</label>
+        <input type="number" id="tasa" inputmode="decimal" min="0" max="50" step="any" placeholder="3" class="form-input" />
+        <p class="form-hint">Una tasa de ejemplo para el ejercicio. No es una previsión.</p>
+      </div>
+      <div>
+        <label for="anios" class="form-label">Años</label>
+        <input type="number" id="anios" inputmode="numeric" min="1" max="50" step="1" placeholder="20" class="form-input" />
+        <p class="form-hint">El plazo de la simulación.</p>
+      </div>
+      <div>
+        <label for="frecuencia" class="form-label">Frecuencia de capitalización</label>
+        <select id="frecuencia" class="form-input">
+          <option value="mensual" selected>Mensual</option>
+          <option value="anual">Anual</option>
+        </select>
+        <p class="form-hint">Cada cuánto se aplica la tasa en el cálculo.</p>
+      </div>
+      <div>
+        <label for="comisiones" class="form-label">Comisiones anuales (%) <span class="font-normal text-slate-400">(opcional)</span></label>
+        <input type="number" id="comisiones" inputmode="decimal" min="0" max="50" step="any" placeholder="0" class="form-input" />
+        <p class="form-hint">Se restan de la tasa anual en la simulación.</p>
+      </div>
+      <div>
+        <label for="inflacion" class="form-label">Inflación anual estimada (%) <span class="font-normal text-slate-400">(opcional)</span></label>
+        <input type="number" id="inflacion" inputmode="decimal" min="0" max="50" step="any" placeholder="2" class="form-input" />
+        <p class="form-hint">Para ver el resultado también en poder de compra de hoy.</p>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="mt-7 w-full rounded-lg bg-navy-900 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      Simular crecimiento compuesto
+    </button>
+    <p id="form-error" class="mt-3 hidden text-sm font-medium text-red-600" role="alert"></p>
+  </form>
+
+  <section id="resultados" class="mt-8 hidden" aria-live="polite">
+    <h2 class="text-xl font-bold text-navy-900">Tu simulación</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="result-card">
+        <p class="result-label">Valor final nominal</p>
+        <p class="result-value" id="res-final">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Aportaciones totales</p>
+        <p class="result-value" id="res-aportado">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Crecimiento de la simulación</p>
+        <p class="result-value" id="res-crecimiento">—</p>
+      </div>
+      <div class="result-card">
+        <p class="result-label">Ajustado por inflación</p>
+        <p class="result-value" id="res-real">—</p>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Composición del valor final</p>
+      <div class="mt-2 flex h-5 w-full overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
+        <div id="res-barra-aportado" class="flex items-center justify-center bg-navy-600 text-[10px] font-semibold text-white" style="width: 0%"></div>
+        <div id="res-barra-crecimiento" class="flex items-center justify-center bg-mint-400 text-[10px] font-semibold text-navy-950" style="width: 0%"></div>
+      </div>
+      <p id="res-barra-texto" class="mt-2 text-xs text-slate-500"></p>
+    </div>
+
+    <h3 class="mt-6 text-sm font-bold uppercase tracking-wide text-slate-500">Evolución año a año</h3>
+    <div class="mt-3 max-h-80 overflow-y-auto overflow-x-auto rounded-xl border border-slate-100">
+      <table class="w-full min-w-[380px] text-sm">
+        <thead class="sticky top-0 bg-slate-50">
+          <tr class="border-b-2 border-slate-200 text-left text-slate-500">
+            <th class="px-3 py-2 font-semibold" scope="col">Año</th>
+            <th class="px-3 py-2 text-right font-semibold" scope="col">Aportado acumulado</th>
+            <th class="px-3 py-2 text-right font-semibold" scope="col">Valor simulado</th>
+          </tr>
+        </thead>
+        <tbody id="res-tabla"></tbody>
+      </table>
+    </div>
+
+    <p id="res-mensaje" class="mt-5 rounded-xl bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-800"></p>
+    <p class="mt-3 text-xs text-slate-400">
+      Simulación matemática con una tasa hipotética. No representa rentabilidades futuras ni
+      constituye asesoramiento de inversión.
+    </p>
+  </section>
+
+  <Fragment slot="explicacion">
+    <h2>Qué es el interés compuesto (y qué calcula esta herramienta)</h2>
+    <p>
+      El interés compuesto es un concepto matemático: cuando un importe crece un porcentaje y ese
+      crecimiento se acumula a la base, el siguiente crecimiento se calcula sobre una base mayor. La
+      fórmula básica es <strong>capital × (1 + tasa)<sup>años</sup></strong>; con aportaciones
+      periódicas, cada aportación "compone" desde el momento en que entra. Esta calculadora aplica
+      ese mecanismo, paso a paso, con los datos que tú introduces.
+    </p>
+    <h3>Cómo leer la simulación</h3>
+    <p>
+      Fíjate en dos cosas. Primera: la diferencia entre lo aportado y el valor final crece de forma
+      no lineal con el tiempo; los últimos años de una simulación larga "trabajan" mucho más que los
+      primeros. Segunda: el resultado es enormemente sensible a la tasa. Cambiarla un punto altera
+      el final de forma notable, y eso es precisamente lo que conviene entender: una simulación con
+      tasa fija es un ejercicio teórico, porque en la realidad ninguna tasa está garantizada ni es
+      constante. Por eso esta herramienta acompaña, no promete. El concepto completo, con ejemplos
+      neutrales, está en la guía de
+      <a href="/guias/interes-compuesto-explicado-sin-inversion">interés compuesto explicado sin hablar de inversión</a>.
+    </p>
+    <h3>Lo que la simulación no incluye</h3>
+    <ul>
+      <li>Impuestos: cualquier rendimiento real tendría efectos fiscales que aquí no se calculan.</li>
+      <li>Variabilidad: la tasa real de cualquier cosa sube y baja; aquí es fija por simplicidad.</li>
+      <li>Riesgo: una tasa hipotética no captura la posibilidad de perder valor.</li>
+      <li>Productos concretos: esta herramienta no representa ningún producto financiero y no recomienda contratar ninguno.</li>
+    </ul>
+    <p>
+      Si introduces comisiones, se restan de la tasa anual; si introduces inflación, verás además el
+      valor final expresado en poder de compra de hoy. Ambos ajustes son también aproximaciones
+      educativas.
+    </p>
+  </Fragment>
+</CalculatorLayout>
+
+<script>
+  import { formatEuros, formatPercent } from '@utils/formatters';
+
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const error = document.getElementById('form-error')!;
+  const resultados = document.getElementById('resultados')!;
+
+  const num = (id: string): number => {
+    const value = parseFloat((document.getElementById(id) as HTMLInputElement).value);
+    return Number.isFinite(value) ? value : NaN;
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    error.classList.add('hidden');
+
+    const inicial = num('inicial');
+    const aportacion = num('aportacion');
+    const tasa = num('tasa');
+    const anios = num('anios');
+    const comisionesRaw = num('comisiones');
+    const inflacionRaw = num('inflacion');
+    const frecuencia = (document.getElementById('frecuencia') as HTMLSelectElement).value;
+
+    const falla = (msg: string) => {
+      error.textContent = msg;
+      error.classList.remove('hidden');
+      resultados.classList.add('hidden');
+    };
+
+    const cantidadInicial = Number.isNaN(inicial) || inicial < 0 ? 0 : inicial;
+    const aporteMensual = Number.isNaN(aportacion) || aportacion < 0 ? 0 : aportacion;
+    if (cantidadInicial === 0 && aporteMensual === 0) return falla('Introduce una cantidad inicial o una aportación mensual mayor que 0.');
+    if (Number.isNaN(tasa) || tasa < 0 || tasa > 50) return falla('Introduce una tasa anual hipotética entre 0 y 50 %.');
+    if (Number.isNaN(anios) || anios < 1 || anios > 50) return falla('Introduce un plazo entre 1 y 50 años.');
+
+    const comisiones = Number.isNaN(comisionesRaw) || comisionesRaw < 0 ? 0 : comisionesRaw;
+    const inflacion = Number.isNaN(inflacionRaw) || inflacionRaw < 0 ? 0 : inflacionRaw;
+    const tasaNeta = (tasa - comisiones) / 100;
+    const totalAnios = Math.round(anios);
+
+    let balance = cantidadInicial;
+    let aportado = cantidadInicial;
+    const filas: { anio: number; aportado: number; valor: number }[] = [];
+    for (let a = 1; a <= totalAnios; a++) {
+      if (frecuencia === 'mensual') {
+        const rm = tasaNeta / 12;
+        for (let m = 0; m < 12; m++) {
+          balance = balance * (1 + rm) + aporteMensual;
+          aportado += aporteMensual;
+        }
+      } else {
+        // Capitalización anual: la tasa se aplica una vez al año; las aportaciones del año se suman sin interés intraanual.
+        balance = balance * (1 + tasaNeta) + aporteMensual * 12;
+        aportado += aporteMensual * 12;
+      }
+      filas.push({ anio: a, aportado, valor: balance });
+    }
+
+    const crecimiento = balance - aportado;
+    const valorReal = balance / Math.pow(1 + inflacion / 100, totalAnios);
+
+    document.getElementById('res-final')!.textContent = formatEuros(balance);
+    document.getElementById('res-aportado')!.textContent = formatEuros(aportado);
+    document.getElementById('res-crecimiento')!.textContent = formatEuros(crecimiento);
+    document.getElementById('res-real')!.textContent = inflacion > 0 ? formatEuros(valorReal) : '—';
+
+    const pctAportado = balance > 0 ? Math.max(0, Math.min(100, (aportado / balance) * 100)) : 100;
+    const pctCrecimiento = Math.max(0, 100 - pctAportado);
+    (document.getElementById('res-barra-aportado') as HTMLElement).style.width = `${pctAportado}%`;
+    (document.getElementById('res-barra-crecimiento') as HTMLElement).style.width = `${pctCrecimiento}%`;
+    document.getElementById('res-barra-texto')!.textContent =
+      `Azul: aportado (${formatPercent(pctAportado)}) · Verde: crecimiento simulado (${formatPercent(pctCrecimiento)}).`;
+
+    const tabla = document.getElementById('res-tabla')!;
+    tabla.innerHTML = '';
+    for (const fila of filas) {
+      const tr = document.createElement('tr');
+      tr.className = 'border-b border-slate-100 text-slate-600';
+      tr.innerHTML = `
+        <td class="px-3 py-1.5">${fila.anio}</td>
+        <td class="px-3 py-1.5 text-right">${formatEuros(fila.aportado)}</td>
+        <td class="px-3 py-1.5 text-right font-medium text-navy-900">${formatEuros(fila.valor)}</td>`;
+      tabla.appendChild(tr);
+    }
+
+    let mensaje = `Con una tasa hipotética del ${tasa.toLocaleString('es-ES')} % anual${comisiones > 0 ? ` (menos ${comisiones.toLocaleString('es-ES')} % de comisiones)` : ''} durante ${totalAnios} años, la simulación termina en ${formatEuros(balance)}: ${formatEuros(aportado)} aportados y ${formatEuros(crecimiento)} de crecimiento compuesto.`;
+    if (inflacion > 0) {
+      mensaje += ` Ajustado por la inflación del ${inflacion.toLocaleString('es-ES')} % que has indicado, ese valor final equivale a ${formatEuros(valorReal)} en poder de compra de hoy.`;
+    }
+    mensaje +=
+      ' Recuerda: es una simulación matemática con una tasa fija e hipotética. No representa rentabilidades futuras, no es asesoramiento de inversión y no recomienda contratar ningún producto.';
+    document.getElementById('res-mensaje')!.textContent = mensaje;
+
+    resultados.classList.remove('hidden');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>

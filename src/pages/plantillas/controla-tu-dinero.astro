@@ -1,0 +1,306 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import DisclaimerBox from '@components/DisclaimerBox.astro';
+import NewsletterBox from '@components/NewsletterBox.astro';
+import TemplateMockup from '@components/TemplateMockup.astro';
+import { breadcrumbsJsonLd, canonicalUrl } from '@utils/seo';
+import { DEMO, MODULOS, PRODUCTO } from '@utils/modulos';
+
+const beneficios = [
+  {
+    titulo: 'Todo en un archivo',
+    texto: 'Nada de tres apps y cinco notas: ingresos, gastos, presupuesto, objetivos y simuladores conectados entre sí.',
+  },
+  {
+    titulo: 'Se actualiza sola',
+    texto: 'Apuntas un gasto y el dashboard, el presupuesto y los porcentajes se recalculan al instante.',
+  },
+  {
+    titulo: 'Decisiones con números',
+    texto: 'Los simuladores de alquiler, mudanza y vivienda compartida te dan la cifra antes de comprometerte.',
+  },
+  {
+    titulo: 'Plan de 30 días',
+    texto: 'No es solo una plantilla: es un recorrido guiado para que en un mes tengas el sistema funcionando.',
+  },
+  {
+    titulo: 'Tus datos son tuyos',
+    texto: 'Sin registro, sin nube obligatoria, sin macros. El archivo vive en tu ordenador o tu Drive.',
+  },
+  {
+    titulo: 'Sin jerga financiera',
+    texto: 'Celdas marcadas para escribir, el resto se calcula. Si sabes rellenar un formulario, te vale.',
+  },
+] as const;
+
+const paraQuien = [
+  'Quieres dejar de preguntarte a dónde se va tu dinero cada mes.',
+  'Cobras tus primeros sueldos y quieres montar un sistema sencillo desde el principio.',
+  'Estás valorando independizarte, mudarte o cambiar de trabajo y necesitas números, no corazonadas.',
+  'Has probado apps y hojas sueltas y siempre las abandonas a las dos semanas.',
+] as const;
+
+const paraQuienNo = [
+  'Buscas consejos de inversión, trading o criptomonedas: aquí no los hay.',
+  'Esperas resultados garantizados: organizar el dinero es un hábito, no un truco.',
+  'Necesitas asesoramiento personalizado sobre tu caso: eso es trabajo de un profesional regulado.',
+] as const;
+
+const queNoHace = [
+  'No recomienda inversiones ni productos financieros.',
+  'No sustituye el asesoramiento financiero, fiscal o legal.',
+  'No guarda datos: todo se queda en tu archivo, sin servidores de por medio.',
+  'No promete resultados ni cifras de ahorro garantizadas.',
+  'No recomienda bancos, préstamos, brókers, tarjetas ni criptomonedas.',
+] as const;
+
+const faq = [
+  {
+    q: '¿Qué recibo exactamente al comprar?',
+    a: 'Un archivo de hoja de cálculo editable con los 10 módulos y la guía de uso de 30 días incluida en el propio archivo. Lo descargas y es tuyo: sin suscripciones.',
+  },
+  {
+    q: '¿Necesito saber de Excel?',
+    a: 'No. Las celdas donde escribes están marcadas en color y el resto se calcula solo. La revisión mensual te va guiando paso a paso.',
+  },
+  {
+    q: '¿Funciona en Google Sheets y LibreOffice?',
+    a: 'Sí. Es una hoja de cálculo estándar sin macros, compatible con Excel, Google Sheets y LibreOffice.',
+  },
+  {
+    q: '¿Puedo ver la plantilla antes de comprar?',
+    a: 'Sí, de dos formas: la preview online de esta página y una demo descargable en formato .xlsx. Ambas usan datos ficticios y no son editables: sirven para ver la estructura y los módulos. Para usar la plantilla con tus propios datos necesitas la versión premium, que se entrega con la compra.',
+  },
+  {
+    q: '¿Qué significa "acceso anticipado"?',
+    a: 'La plantilla está en fase de lanzamiento. Apuntándote a la lista recibirás el aviso de salida y el precio de lanzamiento antes que nadie.',
+  },
+  {
+    q: '¿Esto es asesoramiento financiero?',
+    a: 'No. Es una herramienta educativa de organización personal. No analiza tu caso ni recomienda productos: las decisiones siguen siendo tuyas.',
+  },
+] as const;
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const productJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `Plantilla ${PRODUCTO.nombre}`,
+  description:
+    'Plantilla de hoja de cálculo con 10 módulos para organizar ingresos, gastos, presupuesto, objetivos de ahorro, alquiler y mudanza. Herramienta educativa, no asesoramiento financiero.',
+  url: canonicalUrl(PRODUCTO.url),
+  brand: { '@type': 'Brand', name: 'Analiza Tu Dinero' },
+};
+
+const jsonLd = [
+  breadcrumbsJsonLd([
+    { label: 'Inicio', href: '/' },
+    { label: 'Plantillas', href: '/plantillas' },
+    { label: PRODUCTO.nombre, href: PRODUCTO.url },
+  ]),
+  faqJsonLd,
+  productJsonLd,
+];
+---
+
+<BaseLayout
+  title="Plantilla Controla tu dinero en 30 días — precio y módulos"
+  description="La plantilla premium de Analiza Tu Dinero: 10 módulos para presupuesto, gastos, objetivos, alquiler y mudanza en un único archivo editable. 9,90 € precio de lanzamiento."
+  jsonLd={jsonLd}
+>
+  <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <Breadcrumbs
+      items={[{ label: 'Plantillas', href: '/plantillas' }, { label: PRODUCTO.nombre }]}
+    />
+
+    <!-- Hero -->
+    <header class="mt-8 text-center">
+      <span class="rounded-full bg-mint-100 px-4 py-1.5 text-sm font-semibold text-mint-800">
+        Acceso anticipado · Lanzamiento muy pronto
+      </span>
+      <h1 class="mt-5 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-5xl">
+        Deja de adivinar a dónde va tu dinero
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">
+        <strong class="font-semibold text-navy-900">{PRODUCTO.nombre}</strong> es una plantilla
+        completa con 10 módulos conectados: registra, presupuesta, simula decisiones y revisa tu mes
+        en diez minutos. Un único archivo editable, tuyo para siempre.
+      </p>
+      <p class="mt-6 text-2xl font-extrabold text-navy-900">
+        {PRODUCTO.precio}
+        <span class="block text-sm font-medium text-slate-500 sm:ml-2 sm:inline">{PRODUCTO.precioNota}</span>
+      </p>
+      <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a
+          href="#acceso"
+          class="w-full rounded-lg bg-navy-900 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+        >
+          Apuntarme al acceso anticipado
+        </a>
+        <a
+          href={DEMO.url}
+          download
+          class="w-full rounded-lg border border-slate-300 bg-white px-8 py-3.5 text-base font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50 sm:w-auto"
+        >
+          {DEMO.label}
+        </a>
+      </div>
+      <p class="mt-3 text-xs text-slate-400">{DEMO.aviso}</p>
+      <a href="#preview" class="mt-3 inline-block text-sm font-medium text-navy-700 underline decoration-mint-400 decoration-2 underline-offset-2 hover:text-navy-900">
+        Ver preview online
+      </a>
+    </header>
+
+    <!-- Preview -->
+    <section id="preview" class="mt-14 scroll-mt-24">
+      <TemplateMockup />
+
+      <!-- Demo descargable -->
+      <div class="mt-6 rounded-2xl border border-mint-200 bg-mint-50 p-6 text-center sm:p-8">
+        <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">Descarga una demo real de la plantilla</h2>
+        <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+          Abre una copia de muestra con datos ficticios para ver la estructura, el diseño y los
+          módulos incluidos. Esta demo no es editable y no contiene fórmulas utilizables. La versión
+          premium sí permite introducir tus propios datos.
+        </p>
+        <a
+          href={DEMO.url}
+          download
+          class="mt-5 inline-block rounded-lg bg-navy-900 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+        >
+          {DEMO.label}
+        </a>
+        <p class="mt-3 text-xs text-slate-500">Archivo .xlsx · Datos ficticios · Solo visualización</p>
+      </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Qué cambia con la plantilla</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          beneficios.map((b) => (
+            <div class="rounded-2xl border border-slate-200 bg-white p-5">
+              <h3 class="font-bold text-navy-900">{b.titulo}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{b.texto}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Módulos -->
+    <section id="modulos" class="mt-16 scroll-mt-24">
+      <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Los 10 módulos incluidos</h2>
+      <p class="mt-3 text-slate-600">
+        Cada módulo tiene una calculadora o guía gratuita relacionada en la web: pruébala antes de
+        comprar para ver si el enfoque encaja contigo.
+      </p>
+      <div class="mt-8 grid gap-5 sm:grid-cols-2">
+        {
+          MODULOS.map((modulo) => (
+            <article id={modulo.id} class="flex h-full scroll-mt-24 flex-col rounded-2xl border border-slate-200 bg-white p-5">
+              <h3 class="font-bold text-navy-900">{modulo.nombre}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{modulo.problema}</p>
+              <a href={modulo.relacionada.href} class="mt-4 text-sm font-medium text-navy-700 underline decoration-mint-400 decoration-2 underline-offset-2 hover:text-navy-900">
+                Gratis: {modulo.relacionada.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Para quién es / no es -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Para quién es (y para quién no)</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        <div class="rounded-2xl bg-mint-50 p-6">
+          <p class="font-bold text-mint-800">Es para ti si…</p>
+          <ul class="mt-3 space-y-2.5 text-sm leading-relaxed text-slate-700">
+            {paraQuien.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="rounded-2xl bg-slate-50 p-6">
+          <p class="font-bold text-slate-700">No es para ti si…</p>
+          <ul class="mt-3 space-y-2.5 text-sm leading-relaxed text-slate-600">
+            {paraQuienNo.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Qué no hace -->
+    <section class="mt-16 rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+      <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Qué no hace la plantilla</h2>
+      <p class="mt-3 text-sm text-slate-600">
+        Lo decimos antes de que pagues, no después:
+      </p>
+      <ul class="mt-4 space-y-2.5">
+        {
+          queNoHace.map((item) => (
+            <li class="flex items-start gap-2.5 text-sm leading-relaxed text-slate-600">
+              <svg class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Preguntas frecuentes</h2>
+      <div class="mt-6 space-y-4">
+        {
+          faq.map((item) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white p-5">
+              <summary class="cursor-pointer list-none text-sm font-bold text-navy-900 sm:text-base">
+                {item.q}
+              </summary>
+              <p class="mt-3 text-sm leading-relaxed text-slate-600">{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <div class="mt-12">
+      <DisclaimerBox text="La plantilla es una herramienta de organización personal con fines educativos. No es asesoramiento financiero, fiscal ni legal, y no garantiza ningún resultado económico." />
+    </div>
+
+    <!-- CTA final + acceso anticipado -->
+    <section class="mt-12 rounded-2xl bg-navy-900 px-6 py-10 text-center sm:px-10">
+      <h2 class="text-2xl font-bold text-white">Empieza tus 30 días con ventaja</h2>
+      <p class="mx-auto mt-3 max-w-xl text-navy-100">
+        Apúntate al acceso anticipado: aviso de lanzamiento y precio de salida de
+        {PRODUCTO.precio} para los primeros de la lista.
+      </p>
+      <a
+        href="#acceso"
+        class="mt-6 inline-block rounded-lg bg-mint-400 px-8 py-3.5 text-base font-semibold text-navy-950 transition-colors hover:bg-mint-300"
+      >
+        Apuntarme al acceso anticipado
+      </a>
+    </section>
+
+    <div class="mt-12 scroll-mt-24" id="acceso">
+      <NewsletterBox
+        title="Lista de acceso anticipado"
+        description="Te avisaremos del lanzamiento con el precio de salida. Sin spam: solo el aviso y poco más."
+      />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const enlaces = [
+  { label: 'Calculadoras', href: '/calculadoras' },
+  { label: 'Plantillas', href: '/plantillas' },
+  { label: 'Guías', href: '/guias' },
+  { label: 'Análisis', href: '/analisis' },
+] as const;
+---
+
+<BaseLayout
+  title="Página no encontrada (error 404)"
+  description="La página que buscas no existe o ha cambiado de dirección. Encuentra calculadoras, plantillas y guías de Analiza Tu Dinero desde aquí."
+  noindex
+>
+  <div class="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
+    <p class="text-7xl font-extrabold text-navy-200">404</p>
+    <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-navy-900 sm:text-4xl">
+      Esta página no cuadra
+    </h1>
+    <p class="mt-4 text-lg leading-relaxed text-slate-600">
+      La página que buscas no existe o ha cambiado de dirección. Hemos revisado las cuentas dos
+      veces y no aparece por ningún lado.
+    </p>
+    <a
+      href="/"
+      class="mt-8 inline-block rounded-lg bg-navy-900 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-navy-700"
+    >
+      Volver al inicio
+    </a>
+    <div class="mt-10">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">Quizá buscabas</p>
+      <div class="mt-4 flex flex-wrap justify-center gap-3">
+        {
+          enlaces.map((enlace) => (
+            <a
+              href={enlace.href}
+              class="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-navy-800 transition-colors hover:border-navy-300 hover:bg-navy-50"
+            >
+              {enlace.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

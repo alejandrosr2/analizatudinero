@@ -1,5 +1,5 @@
 /**
- * Módulos incluidos en la plantilla premium "Controla tu dinero en 30 días".
+ * Módulos incluidos en la plantilla gratuita "Controla tu dinero en 30 días".
  * Fuente única para la landing de plantillas, la página de producto y las
  * páginas SEO de módulos. El `id` es el anchor en /plantillas/controla-tu-dinero.
  */
@@ -13,18 +13,16 @@ export interface Modulo {
 export const PRODUCTO = {
   nombre: 'Controla tu dinero en 30 días',
   url: '/plantillas/controla-tu-dinero',
-  precio: '9,90 €',
-  precioNota: 'precio de lanzamiento · acceso anticipado',
 } as const;
 
 /**
- * Demo gratuita descargable: archivo no editable, con datos ficticios y sin
- * fórmulas utilizables. Sirve para ver el producto, no para usarlo.
+ * Descarga directa de la plantilla: archivo Excel editable y gratuito,
+ * con datos de ejemplo. Sin registro, sin email y sin checkout.
  */
-export const DEMO = {
-  url: '/descargas/analiza-tu-dinero-demo-no-editable.xlsx',
-  label: 'Descargar demo gratis',
-  aviso: 'Demo no editable · Datos ficticios · La versión premium permite usar la plantilla con tus propios datos',
+export const DESCARGA = {
+  url: '/descargas/plantilla-controla-tu-dinero.xlsx',
+  label: 'Descargar plantilla gratis',
+  aviso: 'Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos',
 } as const;
 
 export const MODULOS: Modulo[] = [

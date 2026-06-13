@@ -9,10 +9,14 @@ import CalculatorLayout from '@components/CalculatorLayout.astro';
   intro="Introduce el coste mensual estimado de cada opción y tus ingresos netos. La calculadora te mostrará la diferencia al mes y al año, y qué parte de tu sueldo se llevaría cada escenario."
   breadcrumbLabel="Vivir solo vs compartir"
   cta={{
-    title: 'Llevar esta comparación mes a mes',
-    description: 'El módulo vivir solo vs compartir de la plantilla premium «Controla tu dinero en 30 días» mantiene la comparación actualizada con tus ingresos y gastos reales.',
-    buttonLabel: 'Ver el módulo incluido en la plantilla',
-    buttonHref: '/plantillas/controla-tu-dinero#vivir-solo-compartir',
+    title: 'Llevar esta comparación a la plantilla',
+    description: 'El módulo vivir solo vs compartir de la plantilla gratuita «Controla tu dinero en 30 días» mantiene la comparación actualizada con tus ingresos y gastos reales. Descarga directa, sin registro.',
+    buttonLabel: 'Descargar plantilla gratis',
+    buttonHref: '/descargas/plantilla-controla-tu-dinero.xlsx',
+    buttonDownload: true,
+    secondaryLabel: 'Ver el módulo en la plantilla',
+    secondaryHref: '/plantillas/controla-tu-dinero#vivir-solo-compartir',
+    note: 'Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos',
   }}
 >
   <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>

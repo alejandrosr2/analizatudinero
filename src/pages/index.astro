@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import Card from '@components/Card.astro';
 import CTABox from '@components/CTABox.astro';
-import NewsletterBox from '@components/NewsletterBox.astro';
+import DownloadBox from '@components/DownloadBox.astro';
 import TemplateMockup from '@components/TemplateMockup.astro';
 import { websiteJsonLd, organizationJsonLd } from '@utils/seo';
 
@@ -133,7 +133,7 @@ const jsonLd = [websiteJsonLd(), organizationJsonLd()];
     <div class="mt-8 grid gap-6 md:grid-cols-3">
       <Card
         title="¿Comprar o alquilar?"
-        description="Compara el coste acumulado de cada opción a 5, 10, 20 y 30 años con tus propios supuestos."
+        description="Compara el desembolso acumulado de cada opción a 5, 10, 20 y 30 años con tus propios supuestos."
         href="/calculadoras/comprar-o-alquilar"
         linkLabel="Comparar escenarios"
         icon="home"
@@ -185,11 +185,13 @@ const jsonLd = [websiteJsonLd(), organizationJsonLd()];
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div class="grid items-center gap-10 lg:grid-cols-2">
         <div>
-          <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">La plantilla: Controla tu dinero en 30 días</h2>
+          <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">
+            Descarga gratis la plantilla Controla tu dinero en 30 días
+          </h2>
           <p class="mt-4 leading-relaxed text-slate-600">
-            Estamos preparando una plantilla premium completa con módulos para presupuesto, gastos,
-            ahorro, alquiler, mudanza y objetivos. Puedes ver una
-            <strong class="font-semibold text-navy-900">preview no editable</strong> desde la web.
+            Un archivo Excel editable para organizar ingresos, gastos, presupuesto mensual,
+            objetivos de ahorro y simuladores prácticos. Descarga directa,
+            <strong class="font-semibold text-navy-900">sin registro y sin email</strong>.
           </p>
           <ul class="mt-5 space-y-2.5 text-slate-600">
             <li class="flex items-start gap-2.5">
@@ -207,20 +209,20 @@ const jsonLd = [websiteJsonLd(), organizationJsonLd()];
           </ul>
           <div class="mt-7 flex flex-col gap-3 sm:flex-row">
             <a
-              href="/plantillas"
+              href="/descargas/plantilla-controla-tu-dinero.xlsx"
+              download
               class="rounded-lg bg-navy-900 px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-navy-700"
             >
-              Ver la plantilla premium
+              Descargar plantilla gratis
             </a>
             <a
-              href="/descargas/analiza-tu-dinero-demo-no-editable.xlsx"
-              download
+              href="/plantillas/controla-tu-dinero"
               class="rounded-lg border border-slate-300 bg-white px-6 py-3 text-center text-sm font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50"
             >
-              Descargar demo gratis
+              Ver qué incluye
             </a>
           </div>
-          <p class="mt-3 text-xs text-slate-400">Demo no editable, con datos ficticios.</p>
+          <p class="mt-3 text-xs text-slate-400">Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos</p>
         </div>
         <TemplateMockup />
       </div>
@@ -261,9 +263,9 @@ const jsonLd = [websiteJsonLd(), organizationJsonLd()];
     </div>
   </section>
 
-  <!-- Newsletter -->
+  <!-- Descarga de la plantilla -->
   <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-    <NewsletterBox />
+    <DownloadBox showDetailsLink />
   </section>
 
   <!-- CTA final -->

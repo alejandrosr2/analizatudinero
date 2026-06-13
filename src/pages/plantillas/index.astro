@@ -2,10 +2,10 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import DisclaimerBox from '@components/DisclaimerBox.astro';
-import NewsletterBox from '@components/NewsletterBox.astro';
+import DownloadBox from '@components/DownloadBox.astro';
 import TemplateMockup from '@components/TemplateMockup.astro';
 import { breadcrumbsJsonLd } from '@utils/seo';
-import { DEMO, MODULOS, PRODUCTO } from '@utils/modulos';
+import { DESCARGA, MODULOS, PRODUCTO } from '@utils/modulos';
 
 const incluye = [
   'Un único archivo de hoja de cálculo con 10 módulos conectados entre sí.',
@@ -25,13 +25,17 @@ const paraQuien = [
 
 const queNoHace = [
   'No recomienda inversiones ni productos financieros.',
+  'No recomienda bancos, préstamos, hipotecas, brókers, tarjetas ni criptomonedas.',
   'No sustituye el asesoramiento financiero, fiscal o legal profesional.',
-  'No guarda ni envía datos: todo queda en tu archivo.',
+  'No guarda ni envía datos del usuario: todo queda en tu archivo.',
   'No promete resultados: organiza, no hace magia.',
-  'No recomienda bancos, préstamos, brókers, tarjetas ni criptomonedas.',
 ] as const;
 
 const faq = [
+  {
+    q: '¿De verdad es gratis y sin registro?',
+    a: 'Sí. Puedes descargar la plantilla editable sin dejar tu email: el botón descarga el archivo directamente, sin pasos intermedios.',
+  },
   {
     q: '¿Necesito saber de Excel?',
     a: 'No. Las celdas donde escribes están marcadas y el resto se calcula solo. Si sabes rellenar un formulario, sabes usar la plantilla.',
@@ -41,12 +45,8 @@ const faq = [
     a: 'Sí. El archivo es una hoja de cálculo estándar sin macros, compatible con Excel, Google Sheets y LibreOffice.',
   },
   {
-    q: '¿Puedo probarla antes de comprar?',
-    a: 'Sí: además de la preview online de esta página, puedes descargar una demo en .xlsx con datos ficticios. Ni la preview ni la demo son editables: muestran la estructura y los módulos. La versión premium sí permite introducir tus propios datos.',
-  },
-  {
-    q: '¿Cuándo estará disponible?',
-    a: 'Está en acceso anticipado. Apúntate a la lista y te avisaremos del lanzamiento con el precio de salida.',
+    q: '¿Por qué es gratis?',
+    a: 'Porque la web es un proyecto editorial de educación financiera práctica. En el futuro podrá monetizarse con publicidad o colaboraciones educativas, nunca con promociones de inversión.',
   },
 ] as const;
 
@@ -59,8 +59,8 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title="Plantilla Controla tu dinero en 30 días"
-  description="Una plantilla premium completa para organizar ingresos, gastos, presupuesto, objetivos, mudanza y alquiler desde un único archivo. Mira la preview con datos de ejemplo."
+  title="Plantilla gratis Controla tu dinero en 30 días"
+  description="Descarga gratis la plantilla Excel editable Controla tu dinero en 30 días: presupuesto, gastos, objetivos de ahorro, alquiler y mudanza en un único archivo. Sin registro y sin email."
   jsonLd={jsonLd}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -69,41 +69,43 @@ const jsonLd = [
     <!-- Hero -->
     <header class="mt-8 text-center">
       <span class="rounded-full bg-mint-100 px-4 py-1.5 text-sm font-semibold text-mint-800">
-        Plantilla premium · Acceso anticipado
+        Plantilla gratis · Descarga directa · Sin email
       </span>
       <h1 class="mx-auto mt-5 max-w-3xl text-3xl font-extrabold tracking-tight text-navy-900 sm:text-5xl">
-        {PRODUCTO.nombre}
+        Plantilla gratis {PRODUCTO.nombre}
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">
-        Una plantilla completa para organizar ingresos, gastos, presupuesto, objetivos, mudanza,
-        alquiler y decisiones económicas cotidianas desde un único archivo.
+        Organiza ingresos, gastos, presupuesto, objetivos, alquiler, mudanza y decisiones económicas
+        cotidianas desde un único archivo Excel editable.
+      </p>
+      <p class="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-500">
+        Puedes descargar la plantilla editable sin dejar tu email. Incluye datos de ejemplo para que
+        puedas ver cómo funciona y adaptarla a tu situación.
       </p>
       <div class="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a
-          href="#preview"
+          href={DESCARGA.url}
+          download
           class="w-full rounded-lg bg-navy-900 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
         >
-          Ver preview
+          {DESCARGA.label}
         </a>
         <a
-          href={`${PRODUCTO.url}#acceso`}
+          href={PRODUCTO.url}
           class="w-full rounded-lg border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50 sm:w-auto"
         >
-          Apuntarme al acceso anticipado
+          Ver qué incluye
         </a>
       </div>
-      <p class="mt-4 text-sm text-slate-500">
-        Las <a href="/calculadoras" class="font-medium text-navy-700 underline hover:text-navy-900">calculadoras</a>
-        y <a href="/guias" class="font-medium text-navy-700 underline hover:text-navy-900">guías</a> de la web siguen siendo gratuitas.
-      </p>
+      <p class="mt-3 text-xs text-slate-400">{DESCARGA.aviso}</p>
     </header>
 
     <!-- Preview -->
     <section id="preview" class="mt-14 scroll-mt-24">
       <h2 class="text-center text-2xl font-bold text-navy-900 sm:text-3xl">Así es por dentro</h2>
       <p class="mx-auto mt-3 max-w-2xl text-center text-slate-600">
-        Recorre las pestañas de la preview. Son datos de ejemplo: el archivo editable trabaja con
-        los tuyos.
+        Recorre las pestañas de la vista previa. El archivo que descargas incluye estos módulos en
+        formato Excel editable.
       </p>
       <div class="mx-auto mt-8 max-w-4xl">
         <TemplateMockup />
@@ -132,7 +134,7 @@ const jsonLd = [
       <h2 class="text-2xl font-bold text-navy-900 sm:text-3xl">Módulos incluidos</h2>
       <p class="mt-3 max-w-2xl text-slate-600">
         Diez módulos conectados en un único archivo. Cada uno tiene una calculadora o guía gratuita
-        relacionada para que pruebes el enfoque antes de comprar.
+        relacionada, por si quieres probar el enfoque en línea.
       </p>
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
@@ -141,7 +143,7 @@ const jsonLd = [
               <h3 class="font-bold text-navy-900">{modulo.nombre}</h3>
               <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{modulo.problema}</p>
               <a href={modulo.relacionada.href} class="mt-4 text-sm font-medium text-navy-700 underline decoration-mint-400 decoration-2 underline-offset-2 hover:text-navy-900">
-                Gratis: {modulo.relacionada.label}
+                En la web: {modulo.relacionada.label}
               </a>
             </article>
           ))
@@ -201,39 +203,18 @@ const jsonLd = [
     </section>
 
     <div class="mt-12">
-      <DisclaimerBox text="La plantilla es una herramienta de organización personal con fines educativos. No constituye asesoramiento financiero, fiscal ni legal, y no garantiza ningún resultado económico." />
+      <DisclaimerBox text="Esta plantilla es una herramienta educativa y orientativa. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los cálculos son estimaciones basadas en los datos introducidos por el usuario." />
     </div>
 
     <!-- CTA final -->
-    <section class="mt-12 rounded-2xl bg-navy-900 px-6 py-10 text-center sm:px-10">
-      <h2 class="text-2xl font-bold text-white">Toda tu economía en un archivo</h2>
-      <p class="mx-auto mt-3 max-w-xl text-navy-100">
-        Mira la página del producto con todos los detalles, el precio de lanzamiento y la lista de
-        acceso anticipado.
-      </p>
-      <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a
-          href={PRODUCTO.url}
-          class="w-full rounded-lg bg-mint-400 px-8 py-3.5 text-base font-semibold text-navy-950 transition-colors hover:bg-mint-300 sm:w-auto"
-        >
-          Ver {PRODUCTO.nombre}
-        </a>
-        <a
-          href={DEMO.url}
-          download
-          class="w-full rounded-lg border border-navy-500 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-navy-800 sm:w-auto"
-        >
-          {DEMO.label}
-        </a>
-      </div>
-      <p class="mt-3 text-xs text-navy-300">{DEMO.aviso}</p>
-    </section>
-
-    <div class="mt-12" id="newsletter">
-      <NewsletterBox
-        title="Acceso anticipado"
-        description="Apúntate y te avisaremos cuando la plantilla esté disponible, con el precio de lanzamiento para los primeros de la lista."
-      />
+    <div class="mt-12">
+      <DownloadBox showDetailsLink />
     </div>
+
+    <p class="mt-8 text-center text-xs text-slate-400">
+      En el futuro, Analiza Tu Dinero podrá monetizarse mediante publicidad, enlaces de afiliado o
+      colaboraciones con herramientas educativas y de productividad. No aceptamos promociones de
+      inversión de alto riesgo, trading, criptoactivos ni mensajes engañosos.
+    </p>
   </div>
 </BaseLayout>

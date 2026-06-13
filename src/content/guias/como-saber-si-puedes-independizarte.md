@@ -4,7 +4,7 @@ description: "Alquiler, fianza, suministros, transporte, comida y colchón de se
 pubDate: 2026-06-01
 cta:
   title: "Pon números a tu independencia"
-  description: "La plantilla premium «Controla tu dinero en 30 días» incluye los módulos de alquiler, mudanza y fondo de emergencia para montar tu plan completo. La calculadora gratuita te da la primera cifra."
+  description: "La plantilla gratuita «Controla tu dinero en 30 días» incluye los módulos de alquiler, mudanza y fondo de emergencia para montar tu plan completo. La calculadora gratuita te da la primera cifra."
   buttonLabel: "Ver los módulos de la plantilla"
   buttonHref: "/plantillas/controla-tu-dinero#modulos"
   secondaryLabel: "Usar la calculadora de alquiler"

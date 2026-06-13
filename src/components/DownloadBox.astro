@@ -1,0 +1,41 @@
+---
+import { DESCARGA, PRODUCTO } from '@utils/modulos';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Muestra un enlace secundario hacia la página de la plantilla. */
+  showDetailsLink?: boolean;
+}
+
+const {
+  title = `Descarga gratis «${PRODUCTO.nombre}»`,
+  description = 'Un archivo Excel editable para organizar ingresos, gastos, presupuesto, objetivos y simuladores prácticos. Sin registro, sin email y sin pasos intermedios.',
+  showDetailsLink = false,
+} = Astro.props;
+---
+
+<div class="rounded-2xl border border-mint-200 bg-mint-50 px-6 py-8 text-center sm:px-10">
+  <h2 class="text-xl font-bold text-navy-900 sm:text-2xl">{title}</h2>
+  <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">{description}</p>
+  <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+    <a
+      href={DESCARGA.url}
+      download
+      class="w-full rounded-lg bg-navy-900 px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-700 sm:w-auto"
+    >
+      {DESCARGA.label}
+    </a>
+    {
+      showDetailsLink && (
+        <a
+          href={PRODUCTO.url}
+          class="w-full rounded-lg border border-slate-300 bg-white px-7 py-3 text-sm font-semibold text-navy-900 transition-colors hover:border-navy-300 hover:bg-navy-50 sm:w-auto"
+        >
+          Ver qué incluye
+        </a>
+      )
+    }
+  </div>
+  <p class="mt-3 text-xs text-slate-500">{DESCARGA.aviso}</p>
+</div>

@@ -4,7 +4,7 @@ description: "Ingresos netos, gastos fijos, gastos variables y margen real: el m
 pubDate: 2026-06-04
 cta:
   title: "Convierte tu margen en objetivos"
-  description: "Los módulos de objetivos de ahorro y fondo de emergencia de la plantilla premium «Controla tu dinero en 30 días» ponen cifra, fecha y seguimiento a tu margen. La calculadora gratuita te lo calcula hoy."
+  description: "Los módulos de objetivos de ahorro y fondo de emergencia de la plantilla gratuita «Controla tu dinero en 30 días» ponen cifra, fecha y seguimiento a tu margen. La calculadora gratuita te lo calcula hoy."
   buttonLabel: "Ver el módulo de objetivos"
   buttonHref: "/plantillas/controla-tu-dinero#objetivos"
   secondaryLabel: "Calcular mi margen gratis"

@@ -4,7 +4,7 @@ description: "Confundir saldo con dinero disponible, no prever imprevistos, no s
 pubDate: 2026-06-07
 cta:
   title: "Esquiva estos errores con un sistema"
-  description: "La plantilla premium «Controla tu dinero en 30 días» aplica los antídotos de esta guía: registro simple, presupuesto que se actualiza solo y revisión mensual guiada. La calculadora gratuita te da la foto de hoy."
+  description: "La plantilla gratuita «Controla tu dinero en 30 días» aplica los antídotos de esta guía: registro simple, presupuesto que se actualiza solo y revisión mensual guiada. La calculadora gratuita te da la foto de hoy."
   buttonLabel: "Ver los módulos de la plantilla"
   buttonHref: "/plantillas/controla-tu-dinero#modulos"
   secondaryLabel: "Usar la calculadora gratuita"

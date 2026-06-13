@@ -13,11 +13,14 @@ interface Props {
   updatedDate?: Date;
   /** Sección a la que pertenece el artículo. */
   section: { label: string; href: string };
+  /** Aviso educativo personalizado (sustituye al genérico). */
+  disclaimer?: string;
   cta?: {
     title: string;
     description: string;
     buttonLabel: string;
     buttonHref: string;
+    buttonDownload?: boolean;
     secondaryLabel?: string;
     secondaryHref?: string;
     secondaryDownload?: boolean;
@@ -25,7 +28,7 @@ interface Props {
   };
 }
 
-const { title, description, pubDate, updatedDate, section, cta } = Astro.props;
+const { title, description, pubDate, updatedDate, section, cta, disclaimer } = Astro.props;
 
 const jsonLd = [
   articleJsonLd({
@@ -68,7 +71,7 @@ const jsonLd = [
     </header>
 
     <div class="mt-6">
-      <DisclaimerBox />
+      <DisclaimerBox text={disclaimer} />
     </div>
 
     <div class="prose-article mt-8">
@@ -83,6 +86,7 @@ const jsonLd = [
             description={cta.description}
             buttonLabel={cta.buttonLabel}
             buttonHref={cta.buttonHref}
+            buttonDownload={cta.buttonDownload}
             secondaryLabel={cta.secondaryLabel}
             secondaryHref={cta.secondaryHref}
             secondaryDownload={cta.secondaryDownload}

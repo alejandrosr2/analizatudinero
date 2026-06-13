@@ -34,7 +34,7 @@ const calculadoras = [
   },
   {
     titulo: 'Comprar o alquilar',
-    texto: 'Compara el coste acumulado de comprar una vivienda frente a vivir de alquiler a 5, 10, 20 y 30 años, con tus supuestos.',
+    texto: 'Compara el desembolso acumulado de comprar una vivienda frente a vivir de alquiler a 5, 10, 20 y 30 años, con tus supuestos.',
     href: '/calculadoras/comprar-o-alquilar',
   },
   {
@@ -59,7 +59,7 @@ const jsonLd = [
 
 <BaseLayout
   title="Calculadoras de economía personal gratuitas"
-  description="Calculadoras gratuitas de presupuesto mensual, alquiler máximo, fondo de emergencia, coste de mudanza y vivir solo vs compartir piso. Funcionan en tu navegador y no guardan datos."
+  description="Calculadoras gratuitas para analizar presupuesto, alquiler, mudanza, fondo de emergencia, comprar o alquilar, inflación, poder adquisitivo e interés compuesto. Funcionan en tu navegador y no guardan datos."
   jsonLd={jsonLd}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -71,7 +71,8 @@ const jsonLd = [
       </h1>
       <p class="mt-4 text-lg leading-relaxed text-slate-600">
         Herramientas gratuitas para poner números a tus decisiones: presupuesto, alquiler,
-        emergencias, mudanzas y vivienda compartida. Todas funcionan en tu navegador y
+        emergencias, mudanzas, vivienda compartida, comprar o alquilar, inflación e interés
+        compuesto. Todas funcionan en tu navegador y
         <strong class="font-semibold text-navy-900">no guardan ni envían ningún dato</strong>.
       </p>
     </header>
@@ -91,9 +92,13 @@ const jsonLd = [
     <div class="mt-16">
       <CTABox
         title="¿Prefieres llevar estos cálculos mes a mes?"
-        description="Las calculadoras te dan una foto puntual. La plantilla premium «Controla tu dinero en 30 días» convierte estos cálculos en módulos conectados que se actualizan con tus datos."
-        buttonLabel="Ver la plantilla premium"
-        buttonHref="/plantillas"
+        description="Las calculadoras te dan una foto puntual. La plantilla gratuita «Controla tu dinero en 30 días» convierte estos cálculos en módulos conectados que se actualizan con tus datos. Descarga directa, sin registro."
+        buttonLabel="Descargar plantilla gratis"
+        buttonHref="/descargas/plantilla-controla-tu-dinero.xlsx"
+        buttonDownload
+        secondaryLabel="Ver qué incluye"
+        secondaryHref="/plantillas/controla-tu-dinero"
+        note="Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos"
       />
     </div>
   </div>

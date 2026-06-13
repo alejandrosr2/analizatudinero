@@ -37,7 +37,7 @@ src/
 │   ├── DisclaimerBox.astro   # Caja de aviso "contenido educativo"
 │   ├── CTABox.astro          # Bloque CTA reutilizable
 │   ├── Breadcrumbs.astro     # Migas de pan visuales
-│   ├── NewsletterBox.astro   # Formulario de newsletter (visual, sin conectar)
+│   ├── DownloadBox.astro     # Bloque de descarga directa de la plantilla
 │   └── TemplateMockup.astro  # Mockup HTML/CSS del dashboard de plantillas
 ├── content/
 │   ├── guias/                # Guías en Markdown
@@ -110,7 +110,7 @@ Igual que las guías, pero en `src/content/analisis/`. Deja claro en el texto qu
 
 ## Cómo modificar los textos legales
 
-Los textos de `/aviso-legal`, `/privacidad` y `/cookies` están directamente en sus páginas: `src/pages/aviso-legal.astro`, `src/pages/privacidad.astro` y `src/pages/cookies.astro`. Son bases orientativas marcadas como **pendientes de revisión profesional**: hazlas revisar por un profesional legal antes del lanzamiento definitivo, y actualízalas cuando actives newsletter, analítica o publicidad.
+Los textos de `/aviso-legal`, `/privacidad` y `/cookies` están directamente en sus páginas: `src/pages/aviso-legal.astro`, `src/pages/privacidad.astro` y `src/pages/cookies.astro`. Son bases orientativas marcadas como **pendientes de revisión profesional**: hazlas revisar por un profesional legal antes del lanzamiento definitivo, y actualízalas cuando actives el formulario de contacto, analítica o publicidad.
 
 El email de contacto y la URL del sitio están centralizados en `src/utils/seo.ts` (constante `SITE`).
 
@@ -146,9 +146,19 @@ El build es 100 % estático (`dist/`), así que sirve cualquier hosting estátic
 - RSS en `/rss.xml`.
 - Página 404 personalizada, HTML semántico, breadcrumbs visuales y estructurados.
 
+## Mantenimiento: vulnerabilidades npm conocidas
+
+`npm audit` reporta 3 avisos *high* (junio de 2026) cuya única corrección automática es `astro@6` (cambio **mayor**, no aplicado a ciegas). Análisis de riesgo real para este proyecto:
+
+- **Astro GHSA-j687-52p2-xcff** (XSS vía `define:vars`): no aplica — el proyecto no usa `define:vars` en ningún archivo.
+- **Astro GHSA-xr5h-phrj-8vxv** (replay en server islands): no aplica — el sitio es 100 % estático, sin SSR ni server islands.
+- **esbuild GHSA-gv7w-rqvm-qjhr / GHSA-g7r4-m6w7-qqqr**: afectan a Deno (no usado) y al **servidor de desarrollo** en Windows; el build de producción (`dist/`) son archivos estáticos sin esbuild/vite, así que la web publicada no está afectada. Precaución razonable: no exponer `npm run dev` fuera de localhost.
+
+Acción pendiente recomendada: migrar a Astro 6 cuando haya tiempo para probar el cambio mayor (`npx @astrojs/upgrade`), y entonces desaparecen los tres avisos. No ejecutar `npm audit fix --force` sin esa revisión.
+
 ## Estado actual y pendientes
 
-- Los formularios de **newsletter y contacto son visuales**: no envían ni guardan datos. Conectarlos a un proveedor externo (email marketing / formularios) cuando toque, y actualizar `/privacidad`.
-- **Estrategia de plantillas**: hay un único producto premium, **"Controla tu dinero en 30 días"** (9,90 € precio de lanzamiento, en acceso anticipado). Existe una **demo gratuita descargable** en `public/descargas/analiza-tu-dinero-demo-no-editable.xlsx` (no editable, datos ficticios, sin fórmulas utilizables; constante `DEMO` en `src/utils/modulos.ts`): sirve para ver el producto, no para usarlo. El archivo premium editable NO está en `public/`. Además, la web muestra una **preview no editable** (`src/components/TemplateMockup.astro`, HTML/CSS con pestañas y datos de ejemplo). Las antiguas plantillas sueltas son ahora **módulos del pack** (fuente única en `src/utils/modulos.ts`, anchors en `/plantillas/controla-tu-dinero#<id>`), con páginas SEO en `/plantillas/presupuesto-mensual`, `/plantillas/fondo-emergencia`, `/plantillas/mudanza`, `/plantillas/independizarse` y `/plantillas/vivir-solo-compartir` que venden el pack, no productos separados. El archivo editable real del producto se gestiona fuera del repo web; `scripts/build_plantilla_presupuesto.py` genera un borrador de módulo en `scripts/output/` (ignorado por git) y se verifica con `scripts/recalc-verify.ps1` (requiere Excel).
+- El formulario de **contacto es visual**: no envía ni guarda datos (tiene un TODO en el código). Conectarlo a un proveedor externo cuando toque, y actualizar `/privacidad`. No hay formularios de newsletter ni de captación de emails.
+- **Estrategia de plantillas**: la plantilla **"Controla tu dinero en 30 días" es gratuita** y se descarga directamente desde `public/descargas/plantilla-controla-tu-dinero.xlsx` (Excel editable con datos de ejemplo; constante `DESCARGA` en `src/utils/modulos.ts`). **Sin registro, sin email, sin checkout y sin formularios de captación** (el componente NewsletterBox fue eliminado; los bloques de descarga usan `DownloadBox.astro`). La web muestra además una **preview visual** (`src/components/TemplateMockup.astro`, HTML/CSS con pestañas y datos de ejemplo). Las antiguas plantillas sueltas son **módulos del archivo** (fuente única en `src/utils/modulos.ts`, anchors en `/plantillas/controla-tu-dinero#<id>`), con páginas SEO en `/plantillas/presupuesto-mensual`, `/plantillas/fondo-emergencia`, `/plantillas/mudanza`, `/plantillas/independizarse` y `/plantillas/vivir-solo-compartir`. Monetización futura prevista: publicidad, afiliados seguros o colaboraciones educativas (nunca inversión de alto riesgo, trading ni criptoactivos). `scripts/build_plantilla_presupuesto.py` genera borradores de módulos en `scripts/output/` (ignorado por git) y se verifica con `scripts/recalc-verify.ps1` (requiere Excel).
 - Los **textos legales** necesitan revisión profesional antes del lanzamiento.
 - `public/og-default.svg` es la imagen Open Graph por defecto; algunos servicios de previsualización no rasterizan SVG, así que conviene sustituirla por un PNG/JPG de 1200×630 antes del lanzamiento.

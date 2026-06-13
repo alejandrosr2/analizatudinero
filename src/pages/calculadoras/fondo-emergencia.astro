@@ -9,10 +9,14 @@ import CalculatorLayout from '@components/CalculatorLayout.astro';
   intro="Indica tus gastos esenciales mensuales, cuántos meses quieres cubrir y cuánto tienes ahorrado. La calculadora te dirá el objetivo total, lo que te falta y, si añades un ahorro mensual, cuántos meses tardarías en llegar."
   breadcrumbLabel="Fondo de emergencia"
   cta={{
-    title: 'Llevar este cálculo mes a mes',
-    description: 'El módulo de fondo de emergencia de la plantilla premium «Controla tu dinero en 30 días» sigue tu progreso con barra de avance y ahorro mensual necesario.',
-    buttonLabel: 'Ver el módulo incluido en la plantilla',
-    buttonHref: '/plantillas/controla-tu-dinero#fondo-emergencia',
+    title: 'Llevar este cálculo a la plantilla',
+    description: 'El módulo de fondo de emergencia de la plantilla gratuita «Controla tu dinero en 30 días» sigue tu progreso con barra de avance y ahorro mensual necesario. Descarga directa, sin registro.',
+    buttonLabel: 'Descargar plantilla gratis',
+    buttonHref: '/descargas/plantilla-controla-tu-dinero.xlsx',
+    buttonDownload: true,
+    secondaryLabel: 'Ver el módulo en la plantilla',
+    secondaryHref: '/plantillas/controla-tu-dinero#fondo-emergencia',
+    note: 'Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos',
   }}
 >
   <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>

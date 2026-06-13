@@ -2,18 +2,19 @@
 title: "Comprar casa o vivir de alquiler: cómo comparar los costes antes de decidir"
 description: "Aprende a comparar el coste real de comprar una vivienda frente a vivir de alquiler: costes iniciales, mensuales, flexibilidad y horizonte temporal, sin recomendaciones."
 pubDate: 2026-06-12
+disclaimer: "Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los resultados son estimaciones basadas en los datos introducidos por el usuario. No recomendamos comprar, alquilar ni contratar una hipoteca: esta guía y su calculadora solo comparan escenarios orientativos."
 cta:
   title: "Pon números a los dos escenarios"
-  description: "La calculadora comprar o alquilar compara los costes acumulados con tus supuestos. Y la plantilla premium «Controla tu dinero en 30 días» te ayuda a preparar el presupuesto y el ahorro de cualquiera de los dos caminos."
-  buttonLabel: "Ver la plantilla premium"
-  buttonHref: "/plantillas/controla-tu-dinero"
-  secondaryLabel: "Descargar demo gratis"
-  secondaryHref: "/descargas/analiza-tu-dinero-demo-no-editable.xlsx"
-  secondaryDownload: true
-  note: "Archivo .xlsx · Datos ficticios · Solo visualización"
+  description: "La calculadora comprar o alquilar compara los desembolsos acumulados con tus supuestos. Y la plantilla gratuita «Controla tu dinero en 30 días» te ayuda a preparar el presupuesto y el ahorro de cualquiera de los dos caminos."
+  buttonLabel: "Descargar plantilla gratis"
+  buttonHref: "/descargas/plantilla-controla-tu-dinero.xlsx"
+  buttonDownload: true
+  secondaryLabel: "Ver qué incluye la plantilla"
+  secondaryHref: "/plantillas/controla-tu-dinero"
+  note: "Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos"
 ---
 
-"Comprar es tirar el dinero del banco; alquilar es tirar el dinero del casero." Entre esos dos eslóganes vive una de las decisiones económicas más grandes que tomarás, y ninguno de los dos te sirve para tomarla. Esta guía no va a decirte qué te conviene —eso depende de tus números, tu ciudad, tu estabilidad y tus planes—, pero sí va a darte lo que los eslóganes no dan: un método para comparar los costes reales de cada opción antes de decidir.
+"Comprar es tirar el dinero del banco; alquilar es tirar el dinero del casero." Entre esos dos eslóganes vive una de las decisiones económicas más grandes que tomarás, y ninguno de los dos te sirve para tomarla. Esta guía no va a decirte qué opción elegir —eso depende de tus números, tu ciudad, tu estabilidad y tus planes—, pero sí va a darte lo que los eslóganes no dan: un método para comparar los costes reales de cada opción antes de decidir.
 
 Aviso importante antes de empezar: aquí no recomendamos comprar, ni alquilar, ni hipotecarse, ni ningún producto financiero. Esto es educación financiera práctica: entender qué se paga en cada escenario y cómo compararlo.
 
@@ -68,21 +69,21 @@ Dos factores no monetarios pesan tanto como los euros:
 
 ## El tiempo: la variable que manda
 
-Cuanto más años vivas en la misma vivienda, más se diluye el golpe inicial de comprar entre los años de uso, y más pesa la subida acumulada del alquiler en el otro escenario. Con pocos años de horizonte, los gastos iniciales de la compra no dan tiempo a "amortizarse" frente al alquiler; con muchos, la balanza de costes acumulados tiende a moverse. Dónde se cruzan las líneas —si se cruzan— depende de tus supuestos concretos: precio, entrada, interés, alquiler equivalente y subida anual.
+Cuanto más años vivas en la misma vivienda, más se diluye el golpe inicial de comprar entre los años de uso, y más pesa la subida acumulada del alquiler en el otro escenario. Con pocos años de horizonte, los gastos iniciales de la compra no dan tiempo a "diluirse" frente al alquiler; con muchos, la balanza de desembolsos acumulados tiende a moverse. Dónde se cruzan las líneas —si se cruzan— depende de tus supuestos concretos: precio, entrada, interés, alquiler equivalente y subida anual.
 
-Por eso la pregunta útil no es "¿qué es mejor?", sino "**¿cuántos años tendría que quedarme para que comprar dejara de ser más caro, con mis números?**". Esa pregunta sí tiene respuesta calculable.
+Por eso la pregunta útil no es "¿qué es mejor?", sino "**¿cuántos años tendría que quedarme para que comprar dejara de suponer un mayor desembolso, con mis números?**". Esa pregunta se puede aproximar con una simulación, pero no tiene una respuesta universal: depende de los supuestos utilizados.
 
 ## Ejemplo hipotético (números inventados para ilustrar)
 
 Vivienda de 180.000 € con entrada del 20 % (36.000 €) y gastos del 12 % (21.600 €). Hipoteca de 144.000 € a 25 años al 3 %: cuota aproximada de 683 €. Gastos de propietario: 60 € de comunidad al mes más 1.150 € anuales entre IBI, seguro y mantenimiento, unos 156 €/mes en total. Coste mensual de comprar: **~839 €**. Enfrente, un alquiler equivalente de 800 €/mes con subida anual del 2 %.
 
-A un año vista, comprar acumula los 57.600 € iniciales más unos 10.000 € de cuotas y gastos, frente a 9.600 € de alquiler: la diferencia es abismal. A veinte años, el acumulado de la compra ronda los 259.000 € mientras el del alquiler, con las subidas, se acerca a los 233.000 €. En este ejemplo concreto las líneas siguen sin cruzarse a 20 años, y se aproximan hacia los 28-30 años. Cambia el alquiler a 900 €, o la subida al 3 %, y el cruce se adelanta varios años; baja el precio de compra y ocurre lo mismo. **El resultado es un retrato de tus supuestos, no una verdad general.**
+A un año vista, el desembolso acumulado comprando suma los 57.600 € iniciales más unos 10.000 € de cuotas y gastos, frente a 9.600 € desembolsados alquilando: la diferencia es abismal. A veinte años, el desembolso acumulado de la compra ronda los 259.000 € mientras el del alquiler, con las subidas, se acerca a los 233.000 €. En este ejemplo concreto las líneas siguen sin cruzarse a 20 años, y se aproximan hacia los 28-30 años. Cambia el alquiler a 900 €, o la subida al 3 %, y el cruce se adelanta varios años; baja el precio de compra y ocurre lo mismo. **El resultado es un retrato de tus supuestos, no una verdad general.**
 
 Recuerda además lo que este cálculo no incluye: la revalorización (o no) de la vivienda, el valor recuperable en una venta, los impuestos personales o el uso alternativo del dinero de la entrada. Incluirlos puede mover la balanza en cualquier dirección.
 
 ## Cómo usar la calculadora comprar o alquilar
 
-Para hacer este ejercicio con tus números, usa la [calculadora comprar o alquilar](/calculadoras/comprar-o-alquilar): introduce precio, entrada, gastos, interés, plazo, alquiler equivalente y su subida anual, más los gastos de propietario y los años que planeas quedarte. Obtendrás el desembolso inicial, los costes mensuales de cada escenario, los acumulados a 5, 10, 20 y 30 años y el punto aproximado de cruce, si existe. Todo se calcula en tu navegador y no se guarda nada.
+Para hacer este ejercicio con tus números, usa la [calculadora comprar o alquilar](/calculadoras/comprar-o-alquilar): introduce precio, entrada, gastos, interés, plazo, alquiler equivalente y su subida anual, más los gastos de propietario y los años que planeas quedarte. Obtendrás el desembolso inicial, los costes mensuales de cada escenario, los desembolsos acumulados a 5, 10, 20 y 30 años y el punto aproximado de cruce, si existe. Compara salidas de dinero, no patrimonio. Todo se calcula en tu navegador y no se guarda nada.
 
 Un consejo de uso: no la ejecutes una vez, ejecútala cinco, variando los supuestos dudosos (interés, subida del alquiler, años). Si la conclusión se mantiene en casi todos tus escenarios, es robusta; si baila con cualquier cambio pequeño, la decisión merece más prudencia.
 

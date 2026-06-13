@@ -2,15 +2,16 @@
 title: "Interés compuesto explicado sin hablar de inversión"
 description: "Qué es el interés compuesto, en qué se diferencia del interés simple y por qué el tiempo cambia tanto el resultado: el concepto matemático explicado con ejemplos neutrales."
 pubDate: 2026-06-12
+disclaimer: "Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los resultados son estimaciones basadas en los datos introducidos por el usuario. Las tasas usadas en los ejemplos son hipotéticas y no representan rentabilidades futuras."
 cta:
   title: "Primero el margen, después las matemáticas"
-  description: "Cualquier simulación de crecimiento empieza por una cifra: lo que puedes apartar cada mes. La plantilla premium «Controla tu dinero en 30 días» organiza tu presupuesto y tus objetivos de ahorro para que esa cifra sea real, no optimista."
-  buttonLabel: "Ver la plantilla premium"
-  buttonHref: "/plantillas/controla-tu-dinero#objetivos"
-  secondaryLabel: "Descargar demo gratis"
-  secondaryHref: "/descargas/analiza-tu-dinero-demo-no-editable.xlsx"
-  secondaryDownload: true
-  note: "Archivo .xlsx · Datos ficticios · Solo visualización"
+  description: "Cualquier simulación de crecimiento empieza por una cifra: lo que puedes apartar cada mes. La plantilla gratuita «Controla tu dinero en 30 días» organiza tu presupuesto y tus objetivos de ahorro para que esa cifra sea real, no optimista."
+  buttonLabel: "Descargar plantilla gratis"
+  buttonHref: "/descargas/plantilla-controla-tu-dinero.xlsx"
+  buttonDownload: true
+  secondaryLabel: "Ver el módulo de objetivos"
+  secondaryHref: "/plantillas/controla-tu-dinero#objetivos"
+  note: "Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos"
 ---
 
 El interés compuesto tiene un problema de imagen: casi siempre se explica para venderte algo. Aparece en anuncios y vídeos rodeado de promesas, gráficas que solo suben y frases de gurú. Y es una pena, porque debajo de todo ese ruido hay un concepto matemático precioso, útil y completamente neutral, que conviene entender aunque no pienses invertir un euro en tu vida.

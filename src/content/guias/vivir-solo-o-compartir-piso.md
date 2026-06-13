@@ -4,7 +4,7 @@ description: "Una comparación económica práctica entre vivir solo y compartir
 pubDate: 2026-06-05
 cta:
   title: "Mantén la comparación al día"
-  description: "El módulo vivir solo vs compartir de la plantilla premium «Controla tu dinero en 30 días» actualiza la comparación con tus ingresos y gastos reales. La calculadora gratuita te da el resultado de hoy."
+  description: "El módulo vivir solo vs compartir de la plantilla gratuita «Controla tu dinero en 30 días» actualiza la comparación con tus ingresos y gastos reales. La calculadora gratuita te da el resultado de hoy."
   buttonLabel: "Ver el módulo en la plantilla"
   buttonHref: "/plantillas/controla-tu-dinero#vivir-solo-compartir"
   secondaryLabel: "Usar la calculadora gratuita"

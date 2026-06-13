@@ -4,7 +4,7 @@ description: "Aprende a crear un presupuesto mensual simple que de verdad puedas
 pubDate: 2026-06-02
 cta:
   title: "Convierte el método en sistema"
-  description: "El módulo de presupuesto de la plantilla premium «Controla tu dinero en 30 días» compara previsto y real cada mes sin que tengas que sumar nada. La calculadora gratuita te sirve para la foto de hoy."
+  description: "El módulo de presupuesto de la plantilla gratuita «Controla tu dinero en 30 días» compara previsto y real cada mes sin que tengas que sumar nada. La calculadora gratuita te sirve para la foto de hoy."
   buttonLabel: "Ver el módulo de presupuesto"
   buttonHref: "/plantillas/controla-tu-dinero#presupuesto"
   secondaryLabel: "Usar la calculadora gratuita"

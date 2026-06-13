@@ -4,7 +4,7 @@ description: "Fianza, primer mes, transporte, equipamiento y colchón de emergen
 pubDate: 2026-06-03
 cta:
   title: "Planifica tu mudanza con todos los números"
-  description: "El simulador de mudanza de la plantilla premium «Controla tu dinero en 30 días» guarda tus partidas y las conecta con tu colchón. La calculadora gratuita te da el total en un minuto."
+  description: "El simulador de mudanza de la plantilla gratuita «Controla tu dinero en 30 días» guarda tus partidas y las conecta con tu colchón. La calculadora gratuita te da el total en un minuto."
   buttonLabel: "Ver el módulo de mudanza"
   buttonHref: "/plantillas/controla-tu-dinero#mudanza"
   secondaryLabel: "Usar la calculadora de mudanza"

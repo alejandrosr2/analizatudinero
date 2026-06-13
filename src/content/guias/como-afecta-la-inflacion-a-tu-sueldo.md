@@ -2,15 +2,16 @@
 title: "Cómo afecta la inflación a tu sueldo y a tu poder adquisitivo"
 description: "Entiende qué es la inflación en lenguaje claro, por qué cobrar lo mismo durante años es cobrar menos en términos reales y cómo calcular tu sueldo equivalente."
 pubDate: 2026-06-12
+disclaimer: "Contenido educativo e informativo. No constituye asesoramiento financiero, fiscal, legal ni de inversión. Los resultados son estimaciones basadas en los datos introducidos por el usuario. Los cálculos usan la inflación introducida manualmente y no representan necesariamente datos oficiales."
 cta:
   title: "Conoce tu presupuesto antes de que suban los precios"
-  description: "Contra la inflación no hay calculadora mágica, pero sí una defensa básica: saber exactamente cuánto entra, cuánto sale y cuánto margen te queda. La plantilla premium «Controla tu dinero en 30 días» te da esa foto cada mes."
-  buttonLabel: "Ver la plantilla premium"
-  buttonHref: "/plantillas/controla-tu-dinero"
-  secondaryLabel: "Descargar demo gratis"
-  secondaryHref: "/descargas/analiza-tu-dinero-demo-no-editable.xlsx"
-  secondaryDownload: true
-  note: "Archivo .xlsx · Datos ficticios · Solo visualización"
+  description: "Contra la inflación no hay calculadora mágica, pero sí una defensa básica: saber exactamente cuánto entra, cuánto sale y cuánto margen te queda. La plantilla gratuita «Controla tu dinero en 30 días» te da esa foto cada mes."
+  buttonLabel: "Descargar plantilla gratis"
+  buttonHref: "/descargas/plantilla-controla-tu-dinero.xlsx"
+  buttonDownload: true
+  secondaryLabel: "Ver qué incluye la plantilla"
+  secondaryHref: "/plantillas/controla-tu-dinero"
+  note: "Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos"
 ---
 
 Hay una forma de perder dinero que no aparece en ningún extracto bancario: cobrar lo mismo mientras todo sube. Tu nómina dice la misma cifra que hace tres años, tu banco no muestra ningún cargo extraño y, sin embargo, llegas peor a fin de mes. Eso es la inflación trabajando sobre tu sueldo, y entenderla es de las cosas más útiles que puedes hacer por tu economía sin tocar un solo euro.

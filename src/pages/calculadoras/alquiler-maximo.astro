@@ -9,10 +9,14 @@ import CalculatorLayout from '@components/CalculatorLayout.astro';
   intro="Indica tus ingresos netos y el porcentaje máximo que quieres destinar al alquiler. La calculadora te dará una cifra orientativa de alquiler máximo según tu propio criterio."
   breadcrumbLabel="Alquiler máximo"
   cta={{
-    title: 'Organizar este cálculo en la plantilla premium',
-    description: 'El simulador de alquiler de «Controla tu dinero en 30 días» usa tus ingresos y gastos reales para mostrarte el peso de cada piso sobre tu sueldo.',
-    buttonLabel: 'Ver el módulo incluido en la plantilla',
-    buttonHref: '/plantillas/controla-tu-dinero#alquiler',
+    title: 'Organizar tus datos en la plantilla',
+    description: 'El simulador de alquiler de la plantilla gratuita «Controla tu dinero en 30 días» usa tus ingresos y gastos reales para mostrarte el peso de cada piso sobre tu sueldo. Descarga directa, sin registro.',
+    buttonLabel: 'Descargar plantilla gratis',
+    buttonHref: '/descargas/plantilla-controla-tu-dinero.xlsx',
+    buttonDownload: true,
+    secondaryLabel: 'Ver el módulo en la plantilla',
+    secondaryHref: '/plantillas/controla-tu-dinero#alquiler',
+    note: 'Archivo .xlsx · Editable · Sin registro · Datos de ejemplo incluidos',
   }}
 >
   <form id="calc-form" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8" novalidate>

@@ -4,7 +4,7 @@ description: "Un método sencillo para repartir tu primera nómina entre gastos 
 pubDate: 2026-06-01
 cta:
   title: "Organiza tu sueldo mes a mes"
-  description: "El módulo de presupuesto de la plantilla premium «Controla tu dinero en 30 días» convierte este método en un sistema que se actualiza solo. Y la calculadora gratuita te da la foto de hoy."
+  description: "El módulo de presupuesto de la plantilla gratuita «Controla tu dinero en 30 días» convierte este método en un sistema que se actualiza solo. Y la calculadora gratuita te da la foto de hoy."
   buttonLabel: "Ver el módulo de presupuesto"
   buttonHref: "/plantillas/controla-tu-dinero#presupuesto"
   secondaryLabel: "Usar la calculadora gratuita"

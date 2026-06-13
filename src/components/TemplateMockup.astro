@@ -1,8 +1,8 @@
 ---
 /**
- * Preview premium no editable de la plantilla "Controla tu dinero en 30 días".
- * HTML/CSS con pestañas simuladas y datos de ejemplo hipotéticos: no es el
- * archivo real ni permite editar nada. El archivo comprado sí es editable.
+ * Preview visual de la plantilla gratuita "Controla tu dinero en 30 días".
+ * HTML/CSS con pestañas simuladas y datos de ejemplo hipotéticos. El archivo
+ * descargable es un Excel editable con estos mismos módulos.
  */
 const tabs = [
   { id: 'dashboard', label: 'Dashboard' },
@@ -53,10 +53,10 @@ const barras = [
 ---
 
 <div
-  data-premium-preview
+  data-plantilla-preview
   class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
   role="group"
-  aria-label="Vista previa simulada de la plantilla Controla tu dinero en 30 días, con datos de ejemplo. No editable."
+  aria-label="Vista previa simulada de la plantilla Controla tu dinero en 30 días, con datos de ejemplo."
 >
   <!-- Barra de ventana -->
   <div class="flex items-center justify-between gap-2 border-b border-slate-100 bg-slate-50 px-4 py-2.5">
@@ -66,7 +66,7 @@ const barras = [
       <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
       <span class="ml-3 hidden text-xs font-medium text-slate-400 sm:inline">Controla tu dinero en 30 días — vista previa</span>
     </div>
-    <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-semibold text-amber-800">No editable</span>
+    <span class="rounded-full bg-mint-100 px-2.5 py-0.5 text-[11px] font-semibold text-mint-800">Vista previa</span>
   </div>
 
   <!-- Pestañas simuladas -->
@@ -271,12 +271,12 @@ const barras = [
 
   <!-- Nota de preview -->
   <p class="border-t border-slate-100 bg-slate-50 px-4 py-2.5 text-center text-[11px] text-slate-500">
-    Vista previa con datos de ejemplo. No editable. El archivo comprado sí es editable y funciona con tus datos.
+    Vista previa con datos de ejemplo. El archivo descargable es un Excel editable que funciona con tus datos.
   </p>
 </div>
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-premium-preview]').forEach((preview) => {
+  document.querySelectorAll<HTMLElement>('[data-plantilla-preview]').forEach((preview) => {
     const tabs = preview.querySelectorAll<HTMLButtonElement>('[data-preview-tab]');
     const panels = preview.querySelectorAll<HTMLElement>('[data-preview-panel]');
     tabs.forEach((tab) => {

@@ -4,7 +4,7 @@ description: "Sueldo neto, coste de vida, transporte, horarios y estabilidad: un
 pubDate: 2026-06-06
 cta:
   title: "Simula cada oferta con números completos"
-  description: "Los módulos de presupuesto y simuladores de la plantilla premium «Controla tu dinero en 30 días» te permiten montar el escenario completo de cada oferta. La calculadora gratuita es el primer paso."
+  description: "Los módulos de presupuesto y simuladores de la plantilla gratuita «Controla tu dinero en 30 días» te permiten montar el escenario completo de cada oferta. La calculadora gratuita es el primer paso."
   buttonLabel: "Ver los módulos de la plantilla"
   buttonHref: "/plantillas/controla-tu-dinero#modulos"
   secondaryLabel: "Simular mi presupuesto gratis"

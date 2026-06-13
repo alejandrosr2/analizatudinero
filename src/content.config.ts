@@ -7,13 +7,16 @@ const articleSchema = z.object({
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
   draft: z.boolean().default(false),
-  /** CTA final del artículo hacia la plantilla premium y/o una calculadora. */
+  /** Aviso educativo personalizado (sustituye al genérico de DisclaimerBox). */
+  disclaimer: z.string().optional(),
+  /** CTA final del artículo hacia la plantilla gratuita y/o una calculadora. */
   cta: z
     .object({
       title: z.string(),
       description: z.string(),
       buttonLabel: z.string(),
       buttonHref: z.string(),
+      buttonDownload: z.boolean().optional(),
       secondaryLabel: z.string().optional(),
       secondaryHref: z.string().optional(),
       secondaryDownload: z.boolean().optional(),

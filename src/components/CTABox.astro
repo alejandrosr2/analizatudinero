@@ -4,6 +4,8 @@ interface Props {
   description: string;
   buttonLabel: string;
   buttonHref: string;
+  /** Añade el atributo download al botón principal (p. ej. para la plantilla .xlsx). */
+  buttonDownload?: boolean;
   secondaryLabel?: string;
   secondaryHref?: string;
   /** Añade el atributo download al botón secundario (p. ej. para la demo .xlsx). */
@@ -12,8 +14,17 @@ interface Props {
   note?: string;
 }
 
-const { title, description, buttonLabel, buttonHref, secondaryLabel, secondaryHref, secondaryDownload, note } =
-  Astro.props;
+const {
+  title,
+  description,
+  buttonLabel,
+  buttonHref,
+  buttonDownload,
+  secondaryLabel,
+  secondaryHref,
+  secondaryDownload,
+  note,
+} = Astro.props;
 ---
 
 <div class="rounded-2xl bg-navy-900 px-6 py-8 text-center sm:px-10">
@@ -22,6 +33,7 @@ const { title, description, buttonLabel, buttonHref, secondaryLabel, secondaryHr
   <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
     <a
       href={buttonHref}
+      download={buttonDownload}
       class="w-full rounded-lg bg-mint-400 px-6 py-3 text-sm font-semibold text-navy-950 transition-colors hover:bg-mint-300 sm:w-auto"
     >
       {buttonLabel}
